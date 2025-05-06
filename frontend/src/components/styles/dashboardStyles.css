@@ -1,0 +1,506 @@
+.dashboard-page .form-window{
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    z-index: 9;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #292929c5;
+}
+
+.dashboard-page{
+    width: 100%;
+    height: 100%;
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.dashboard-page .dashboard-data{
+    position: relative;
+    top: 3rem;
+
+}
+
+.dashboard-page .loading-dashboard-forms{
+    display: block;
+    width: 30rem;
+
+    margin: 25rem auto;
+
+    span.text{
+        font-size: 2rem;
+        text-align: center;
+    }
+}
+
+.dashboard-page .dashboard-data .form-cards{
+    position: fixed;
+    top: 3rem;
+    z-index: 10;
+    width: 24rem;
+    height: calc(100vh - 4.5rem);
+    overflow-y: scroll;
+
+    padding: 1rem;
+    margin-right: 1rem;
+
+    border-right: var(--gunmetal) 1px solid;
+    background-color: white;
+}
+
+.dashboard-page .dashboard-data .form-cards .card{
+    
+    border-radius: 0.5rem;
+    background-color: var(--gunmetal);
+    color: white;
+    
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-left: 1.25rem;
+    padding: 1rem;
+
+
+    font-family: "Outfit";
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    transition: all 0.25s;
+}
+
+.dashboard-page .dashboard-data .form-cards .card:last-of-type{
+    margin-bottom: 10rem;
+}
+
+.dashboard-page .dashboard-data .form-cards .card:hover{
+    box-shadow: var(--chestnut) 0px 0px 5px 5px;
+}
+
+.dashboard-page .dashboard-data .form-cards .card section{
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: #030b14 1px solid;
+
+}
+
+.dashboard-page .dashboard-data .form-cards .card button{
+    display: block;
+    margin: 1rem auto 0 !important;
+
+    width: 10rem;
+    height: 2rem;
+
+    border: none;
+
+    font-size: 1rem;
+    font-family: "Outfit";
+    color: white;
+
+    background-color: var(--chestnut);
+
+    cursor: pointer;
+}
+
+.dashboard-page .dashboard-data .form-cards .card button:hover{
+    background-color: #ce5037;
+}
+
+.dashboard-page .dashboard-data .form-cards .card span:first-of-type{
+    
+    font-size: 1.15rem;
+    font-weight: 600;
+    
+}
+
+.dashboard-page .dashboard-data .form-cards .card span:last-of-type{
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+}
+
+.dashboard-page .dashboard-data .form-cards .new-sim-btn{
+    display: block;
+    margin: 0 auto;
+    width: 15rem;
+    height: 3rem;
+    
+    font-family: "Outfit";
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    color: white;
+    background-color: var(--gunmetal);
+    box-shadow: var(--chestnut) 5px 5px;
+
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dashboard-page .dashboard-data .form-cards .new-sim-btn:hover, .dashboard-page .dashboard-data .no-data-page .new-sim-btn:hover{
+    transform: scale(1.05);
+    box-shadow: var(--chestnut) 8px 8px;
+}
+
+.dashboard-page .dashboard-data .no-data-page .new-sim-btn{
+    width: 15rem;
+    height: 3rem;
+    
+    font-family: "Outfit";
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    color: white;
+    background-color: var(--gunmetal);
+    box-shadow: var(--chestnut) 5px 5px;
+
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+
+.dashboard-page .dashboard-data .open-form-list, .dashboard-page .dashboard-data .form-cards .close-form-list{
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    z-index: 10;
+    height: 100%;
+    width: 1.5rem;
+    background-color: var(--chestnut);
+    color: white;
+    border: none;
+
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.dashboard-page .dashboard-data .open-form-list:hover, .dashboard-page .dashboard-data .form-cards .close-form-list:hover{
+    width: 2rem;
+    background-color: #d6563c;
+}
+
+
+.dashboard-page .dashboard-data .no-data-page, .dashboard-page .dashboard-data .no-sim-selected-page{
+    display: block;
+    width: 100vw;
+
+    margin: 20rem auto;
+}
+.dashboard-page .dashboard-data .no-data-page span, .dashboard-page .dashboard-data .no-sim-selected-page{
+    display: block;
+    text-align: center;
+
+    font-size: 1rem;
+}
+
+
+/**/
+
+
+
+.dashboard-page .dashboard-data .dashboard-result{
+    position: relative;
+    left: 3rem;
+    width: calc(100vw - 5rem);
+
+    display: block;
+
+    .general-info{
+        position: fixed;
+        right: 2rem;
+    }
+}
+
+.dashboard-page .dashboard-data .dashboard-result .graphs{
+
+    display: grid;
+    align-items: start;
+    grid: 25rem 30rem / 27.5rem 5rem 2.5rem 2.5rem 27.5rem 2.5rem 25rem;
+    width: calc(100vw - 25rem);
+
+    div.graph{
+        margin: 1rem auto;
+        align-self: flex-start;
+        border: #030b14 solid 1px;
+        
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h2{
+          background-color: var(--gunmetal);
+          color: white;
+          width: 100%;  
+          margin: 0;
+          margin-bottom: 0.5rem;
+          padding-top: 0.5rem;
+          text-align: center;
+          height: 3rem;
+        }
+    }
+
+    div.index-bar{
+        grid-area: 1 / 1 / span 1 / span 1;
+        width: 30rem;
+    }
+
+    div.nutrients-bar{
+        grid-area: 1 / 3 / span 1 / span 2;
+        width: 30rem;
+    }
+
+    div.duration-doughnut{
+        grid-area: 1 / 6;  
+        width: 25rem;
+    }
+    
+
+    div.precip-doughnut{
+        grid-area: 2 / 6 / span 1 / span 2;
+        width: 25rem;
+        margin: 1rem 0; 
+        margin-top: 0;
+    }
+
+    div.precip-reg-doughnut{
+        grid-area: 2 / 5;
+        width: 25rem;
+        margin-top: 0;
+    }
+
+    div.temp-hum-bar{
+        grid-area: 2 / 1 / span 1 / span 3;
+        width: 37.5rem;
+        margin-top: 0;
+    }
+
+}
+
+.sticky-sim-name{
+    display: none;
+}
+
+/*
+media screen 1840 grid
+
+    card fixed
+
+    durata fase // indici semina 
+    info npk // precip tot
+    Temp hum // precip per fase
+
+media screen 1400 flex
+
+    card fixed
+
+    durata fase
+    indici semina
+    info npk
+    precip tot
+    temp hum
+    precip per fase
+
+
+media screen 1000 flex
+
+    card non-fixed
+
+    durata fase
+    indici semina
+    info npk
+    precip tot
+    temp hum
+    precip per fase
+*/
+
+@media screen and (max-width: 1876px) {
+
+    .dashboard-page{
+        overflow-y: scroll;
+    }
+    
+    .dashboard-page .dashboard-data .dashboard-result .graphs{
+        grid: auto auto auto / 45% 45%;
+        column-gap: 1rem;
+        row-gap: 1rem;
+
+        div.graph{
+            margin: 1rem 0;
+            align-self: flex-start;
+            border: #030b14 solid 1px;
+            
+            width: 100%;
+            height: 100%;
+    
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            h2{
+              background-color: var(--gunmetal);
+              color: white;
+              width: 100%;  
+              margin: 0;
+              margin-bottom: 0.5rem;
+              padding-top: 0.5rem;
+              text-align: center;
+              height: 3rem;
+            }
+        }
+    
+        div.index-bar{
+            grid-area: 1 / 2;
+        }
+    
+        div.nutrients-bar{
+            grid-area: 2 / 1;
+        }
+    
+        div.duration-doughnut{
+            grid-area: 1 / 1;  
+                        
+            h2{
+                margin-bottom: 3rem;
+            }    
+        }
+
+        div.precip-doughnut{
+            grid-area: 3 / 2;
+            margin: 1rem 0; 
+        }
+    
+        div.precip-reg-doughnut{
+            grid-area: 3 / 1;
+        }
+    
+        div.temp-hum-bar{
+            grid-area: 2 / 2;
+        }
+    
+    }
+
+}
+
+@media screen and (max-width: 1400px) {
+    .dashboard-page .dashboard-data .dashboard-result .graphs{
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        width: 70%;
+    
+        div.graph{
+            width: 80%;
+            margin: 1rem 0;
+            padding: 1rem;
+            align-self: flex-start;
+            border: #030b14 solid 1px;
+            background-color: #4444442d;
+            
+            h2{
+              background-color: var(--gunmetal);
+              color: white;
+              text-align: center;
+              width: 100%;
+              height: 4rem;  
+              margin: 0;
+              margin-bottom: 0.5rem;
+              padding-top: 0.5rem;
+              text-align: center;
+
+            }
+        }
+    
+        div.index-bar{
+            order: 2;
+        }
+    
+        div.nutrients-bar{
+            order: 3;
+        }
+    
+        div.duration-doughnut{
+            order: 1;
+        }
+        
+    
+        div.precip-doughnut{
+            order: 4;
+        }
+    
+        div.precip-reg-doughnut{
+            order: 5;
+        }
+    
+        div.temp-hum-bar{
+            order: 6;
+        }
+    
+    }
+}
+
+@media screen and (max-width: 1032px) {
+
+    .dashboard-page .dashboard-data .dashboard-result{
+
+        
+        display: flex;
+        flex-direction: column;
+        margin: 0 1.5rem;
+        left : 1rem;
+        padding-bottom: 3rem;
+
+        width: calc(100vw - 5rem);
+
+        .general-info{
+            position: static;
+            
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        
+    }
+
+
+    .dashboard-page .dashboard-data .dashboard-result .graphs .graph{
+        display: block;
+        margin: 0;
+        
+    }
+
+    .sticky-sim-name{
+        display: block;
+        position: sticky;
+        z-index: 4;
+        top: 3.25rem;
+        margin: 0 auto;
+
+        width: 90%;
+        padding: 0.5rem 1rem;
+        
+
+        font-size: 1.55rem;
+        font-weight: 700;
+        text-align: center;
+
+        background-color: #364165;
+        color: white;
+        border-radius: 1rem;
+    }
+
+    .dashboard-page .dashboard-data .dashboard-result .graphs{
+        width: 100vw;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .sticky-sim-name{
+        width: 30%;
+    }
+}
+

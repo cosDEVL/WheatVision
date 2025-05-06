@@ -1,0 +1,105 @@
+.report-page{
+    position: absolute;
+    top: 3rem;
+    height: 100vh;
+    width: 100vw;
+    margin-bottom: 10rem;
+}
+
+.report-page .header-page{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 22rem;
+
+    button{
+        width: 10rem;
+        height: 3rem;
+        font-family: "Outfit";
+        font-size: 1rem;
+        background-color: #690101;
+        color: white;
+        outline: none;
+        border: none;
+        box-shadow: #ff000079 1px 1px 3px 1px;
+
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    button:hover{
+        background-color: #ff0000;
+    }
+
+    button:active{
+        transform: scale(0.9);
+    }
+
+}
+
+.report-page p{
+    width: fit-content;
+    margin-top: 0;
+    margin-bottom: 3rem;
+    margin-left: 22rem;
+    font-size: 1.2rem;
+}
+
+.report-page table{
+    border-collapse: collapse;
+    display: block;
+    margin: 3rem auto;
+    width: 80rem;
+
+    font-family: "Outfit";
+    font-size: 1rem;
+
+}
+
+table thead{
+    background-color: #141d30d3;
+    color: white;
+    font-weight: 600;
+    
+    tr th{
+       width: 10rem;
+       height: 4rem;
+       text-align: center;
+       padding: 0 2rem; 
+    }
+}
+
+table tbody{
+    background-color: #6c90df38;
+
+    tr td{
+        padding: 0.5rem;
+        border-right: 2px #4d4d4d5b solid;
+    }
+
+    .section{
+        text-align: center;
+        background-color: #141d30a9;
+        color: white;
+        font-weight: 600
+    }
+
+    .header{
+        background-color: #22273138;
+        font-weight: 500;
+    }
+
+}
+
+.nothing{ /*Serve più che altro per lasciarmi un po di spazio bianco sotto l'ultima tabella*/
+    height: 5rem;
+} 
+
+
+@media (max-width: 768px) {
+    body{
+        overflow-x: scroll;
+    }
+
+    
+}

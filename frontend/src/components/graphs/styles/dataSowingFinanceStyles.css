@@ -1,0 +1,74 @@
+.static-info{
+    position: relative;
+    background-color: #364165;
+    color: white;
+    text-align: end;
+
+    width: 19rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    
+}
+
+.static-info .card{
+    display: block;
+    margin-top: 1.5rem;
+}
+
+.static-info .sim-name{
+    font-size: 1.55rem;
+    font-weight: 700;
+}
+
+.static-info .card .section-title{
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.45rem;
+
+}
+
+.static-info .card section{
+    border-bottom: var(--chestnut) 2px solid;
+    margin-bottom: 0.55rem;
+    padding-bottom: 0.25rem;
+}
+
+.static-info .card section span:first-of-type{
+    font-size: 1.05rem;
+    font-weight: 600;
+    
+}
+
+.static-info .card section span:last-of-type{
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 400;
+    margin-left: 0.3rem;
+    
+}
+
+@media screen and (max-width: 1032px) {
+    .general-info .static-info{
+        text-align: start;
+        margin-top: 0.2rem;
+    }
+
+    .static-info .card section span:last-of-type{
+        display: inline;
+    }
+
+    .static-info .sim-name{
+        display: none;
+    }
+
+    .static-info .sowing-info-card{
+        margin-top: 0;
+    }
+
+}
+
+
+
+
