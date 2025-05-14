@@ -1,0 +1,9 @@
+@media screen and (max-width: 1200px) {
+    .navbar .logo{
+        margin-left: 10rem;
+    }
+
+    .navbar .navLinks{
+        margin-right: 10rem;
+    }
+}

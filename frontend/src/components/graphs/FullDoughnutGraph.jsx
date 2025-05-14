@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
+import './styles/roundGraphStyle.css'
+
 function FullDoughnutGraph({ simulatedData }) {
 
     const [graphDaysCount, setGraphDaysCount] = useState({
@@ -53,9 +55,7 @@ function FullDoughnutGraph({ simulatedData }) {
     
 
   return (
-    <div style={{
-        height: "max-content"
-    }}>
+    <div className='round-graph'>
         {graphDaysCount.datasets.length > 0 && (
             <Doughnut 
                 data = {graphDaysCount}
@@ -63,7 +63,7 @@ function FullDoughnutGraph({ simulatedData }) {
                 responsive: true,
                 plugins: {
                     legend: {
-                    position: 'bottom',
+                    position: 'top',
                     },
                     tooltip: {
                     callbacks: {
@@ -76,8 +76,12 @@ function FullDoughnutGraph({ simulatedData }) {
                 },
                 elements: {
                     arc: {
-                    hoverOffset: 100
+                    hoverOffset: 50
                     }
+                },
+                maintainAspectRatio: false,
+                animation: {
+                  duration: 0
                 }
                 }}
             />

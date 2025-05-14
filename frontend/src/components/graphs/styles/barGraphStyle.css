@@ -1,0 +1,34 @@
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+.bar-graph{
+    width: 40.75rem;
+    padding: 1rem;
+}
+
+@media screen and (max-width: 1080px) {
+    .bar-graph{
+        width: 37rem;
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .bar-graph{
+        width: 32rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .bar-graph{
+        width: 29rem;
+    }
+}
+
+@media screen and (max-width: 510px) {
+    .bar-graph{
+        width: 22rem;
+    }
+}
+

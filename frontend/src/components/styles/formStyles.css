@@ -5,118 +5,146 @@ input::-webkit-inner-spin-button {
   
 }
 
-.form-side{
-    position: absolute;
-    top: 0;
-    
-    z-index: 10;
+input:-webkit-autofill{
+    -webkit-text-fill-color: var(--text-50);
+    -webkit-box-shadow: 0 0 0px 1000px var(--background-800) inset;
+}
 
-    height: 100%;
-    width: 45%; 
-    margin: 0 auto;
+input:-webkit-autofill:focus{
+    -webkit-box-shadow: 0 0 0px 1000px var(--background-900) inset;
+  }
+
+.form-side{
+    position: fixed;
+    top: 3rem;
+    z-index: 100;
+    height: 100vh;
+    width: 100vw; 
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    background-color: var(--gunmetal);
 
-    h1{
-        color: white;
-    }
 }
 
-.form-side form div{
+.form-side form{
+    background-color: var(--background-50);
+
+    width: 65rem;
+
+    border: var(--background-900) 0.2rem solid;
+    
+}
+
+.form-side form::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background-color: var(--accent-800);
+    opacity: 0.5;
+    
+}
+
+.form-side form .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+
+
+    background-color: var(--background-900);
+}
+
+.form-side form .header h4{
+    margin: 0;
+    margin-left: 1rem;
+    color: var(--text-50);
+}
+
+.form-side form .header button{
+    margin-right: 1rem;
+
+    background: none;
+    border: none;
+    color: var(--text-50);
+    cursor: pointer;
+}
+
+.form-side form .header button:hover{
+    color: red;
+}
+
+.form-side form .module-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+
+.form-side form .module-section .section-two,
+.form-side form .module-section .section-three{
+    margin-left: 5rem;
+}
+
+.form-side form .module-section .section .inputField{
     display: flex;
     flex-direction: column;
-    margin: 0.5rem 0;
-
     width: 15rem;
-
-    label{
-        font-size: 1rem;
-        color: white;
-        margin-bottom: 0.4rem;
-        margin-top: 0.6rem;
-    }
-
-    input{ 
-        height: 1.5rem;
-
-        font-family: "Outfit";
-        font-size: 1.2rem;
-    }
+    height: 5rem;
+    margin-bottom: 1rem;
 }
 
-.form-side form .inputField.select select{
-    height: 2rem;
+.form-side form .module-section .section .inputField label p{
+    color: var(--text-950);
+    margin-bottom: 0.5rem;
+}
+
+.form-side form .module-section .section .inputField input,
+.form-side form .module-section .section .inputField select{
+    padding: 0.5rem;
+
     font-size: 1.2rem;
-    
-}
-
-.form-side form div.submit-button{
-    min-width: 8rem;
-    margin-bottom: 5rem;
-}
-
-.form-side form div.submit-button button{
-    width: 8rem;
-    height: 3rem;
-    margin: 1.5rem auto 0rem;
-
-    font-family: "Outfit";
-    font-size: 1rem;
-    color: white;
-    font-weight: 600;
-
+    font-family: "Outfit" 'Kumbh Sans';
     outline: none;
+    background-color: var(--background-700);
+    color: var(--text-50);
     border: none;
-    background-color: var(--chestnut);
+   
+    transition: all 0.2s;
+}
+
+.form-side form .module-section .section .inputField input:focus,
+.form-side form .module-section .section .inputField select:focus{
+    background-color: var(--background-900);
+
+    outline: 2px solid var(--background-700);
+
+}
+
+.form-side form .submit-button{
+    display: block;
+    width: fit-content;
+    margin: 3rem auto;
+}
+
+.form-side form .submit-button button{
+    width: 10rem;
+    height: 3rem;
+    
+    background-color: var(--secondary-500);
+    color: var(--accent-800);
+    border: none;
 
     cursor: pointer;
-
-    transition: all 0.1s;
+    transition: all 0.2s;
 }
 
-.form-side form div.submit-button button:hover{
-    background-color: #ad4732;
+.form-side form .submit-button button:hover{
+    background-color: var(--secondary-400);
 }
-
-.form-side form div.submit-button button:active{
-    background-color: var(--chestnut);
-    transform: scale(0.9);
-
-}
-
-.form-side form, .form-side h1{
-    
-    margin-right: 5rem; 
-}
-
-@media screen and (max-width: 1024px) {
-    .form-side{
-        width: 28.5rem;
-        overflow-y: hidden;
-    }
-
-    .form-side form div{
-        margin: 0.2rem 0;
-       
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .form-side{
-        width: 100%;
-    }
-
-    .form-side form, .form-side h1{
-        margin: 0 auto;
-    }
-
-    .form-side h1{
-        margin-top: 3rem;
-    }
-}
-
-

@@ -1,0 +1,13 @@
+.round-graph{
+    width: 27rem;
+    height: 27rem;
+    display: block;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 510px) {
+    .round-graph{
+        width: 22rem;
+        height: 22rem;
+    }
+}

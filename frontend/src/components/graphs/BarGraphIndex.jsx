@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
+import './styles/barGraphStyle.css';
+
+
 function BarGraphIndex({ theoricalData, simulatedData }) {
 
   const [graphIndexData, setGraphIndexData] = useState({
@@ -41,7 +44,7 @@ function BarGraphIndex({ theoricalData, simulatedData }) {
   }, [theoricalData, simulatedData]); // <-- Si aggiorna solo quando questi cambiano
 
   return (
-    <>
+    <div className='bar-graph'>
       {graphIndexData.datasets.length > 0 && ( // <-- così eviti errori se vuoto
         <Bar 
           data={graphIndexData} 
@@ -49,11 +52,15 @@ function BarGraphIndex({ theoricalData, simulatedData }) {
             responsive: true, 
             plugins: { 
               legend: { position: 'top' } 
+            },
+            maintainAspectRatio: false,
+            animation: {
+              duration: 0
             }
-          }} 
+          }}
         />
       )}
-    </>
+    </div>
   );
 }
 

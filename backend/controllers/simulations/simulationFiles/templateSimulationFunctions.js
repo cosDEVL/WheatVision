@@ -2,9 +2,7 @@ const fs = require('fs');
 
 const {templateTeoreticPerPhase, templateTeoreticTotal} = require('../templates/templateRef');
 const {yieldTemplateSimulationPerPhase, yieldTemplateSimulationTotal} = require('../templates/templateSimulation');
-const {templateYieldData} = require('../templates/templateYieldData');
 const { templateSeasonsSimulated, seasonalStdDev } = require('../templates/templateSeasonsSimulated');
-const {templateData} = require('../fetchOpenMeteo');
 
 const {calcBetaRandom} = require('../distributions/betaDistribution');
 const { calcNormalDistribution } = require('../distributions/normalDistribution');
@@ -69,6 +67,7 @@ function simulateEnviromentData () {
     for (let i = 0; i < data.length; i++) {
 
         const weekJson = data[i];
+        console.log(weekJson);
         const weeksLength = data[i].precipitationSum.length;
         const { precipitationSum, maxTemp, minTemp, meanTemp, maxHumidity, minHumidity, meanHumidity } = weekJson;
 
@@ -110,7 +109,7 @@ function simulateEnviromentData () {
         seasonsSimulated.meanHumidity = meanHumiditySimulated;
     }
 
-    //console.log(templateSeasonsSimulated);
+    
 
 }
 

@@ -1,345 +1,98 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');  
-
-:root {
-    --vista-blue: #7e98e7;
-    --light-cyan: #d4f5f5;
-    --gunmetal: #202c39;
-    --maize: #ffec51;
-    --chestnut: #a53f2b;
-}
-
-html{
-    font-family: 'Outfit';
-    font-size: 16px;
-}
-
-body{
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-
-    box-sizing: border-box;
-}
-
-#root{
-    position: inherit;
-    top: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.hp-project-title-mobile{
+.home-page-smDevice{
     display: none;
 }
 
 .home-page{
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1;
-
-    width: 100%;
-    height: 100%;
+    display: block;
+    width: 100vw;
+    height: 100vh;
 
     background-image: url('../../assets/backgroundHomePage.jpg');
     background-position: center;
-    background-repeat: no-repeat;
     background-size: cover;
+    background-repeat: no-repeat;
 
 }
 
-.home-page-side{
-    background-color: var(--gunmetal);
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 45%;
+.home-page .home-page-side{
+    background-color: var(--text-950);
+    color: var(--background-50);
+
+    width: 40rem;
     height: 100%;
+
+    position: absolute;
+    right: 0;
+
+}
+
+.home-page .home-page-side .hp-title{
+    text-align: end;
+
+    width: 35rem;
+
+    margin-top: 5rem;
+}
+
+.home-page .home-page-side .hp-links{
+    text-align: end;
+
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: flex-end;
+    width: 35rem;
+    
     
 }
 
-.home-page .hp-project-title, .home-page .hp-navbar {
-    margin: 1rem 5rem;    
-}
-
-.home-page .hp-project-title {
-    width: 65%;
-}
-
-.home-page .hp-navbar{
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.home-page .hp-project-title h1{
-    font-size: 3rem;
-}
-
-.home-page .hp-project-title h3{
-    font-size: 2rem;
-}
-
-.home-page .hp-project-title h1, .home-page .hp-project-title h3{
-    text-align: end;
-    color: white;
-}
-
-.home-page .hp-navbar p{
-    text-align: end;
-    color: white;
-    font-size: 1.25rem;
-
+.home-page .home-page-side .hp-links p{
     margin-bottom: 2rem;
 }
 
-.home-page .hp-navbar button{
-    align-self: flex-end;
+.home-page .home-page-side .hp-links button{
     width: 20rem;
-    height: 3.5rem;
-    border-radius: 0.75rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+
     border: none;
-
-    margin-top: 1.2rem;
-    padding: 1rem 2rem;
-
-    text-align: center;
-    font-size: 1.05rem;
-    font-weight: 500;
-    font-family: "Outfit";
-    
-    cursor: pointer;
-}
-
-.home-page .hp-navbar button:first-of-type{
-    margin-top: 0;
-    background-color: var(--maize);
-}
-
-.home-page .hp-navbar button:nth-last-of-type(2){
-    background-color: var(--vista-blue);
-    color: black;
-}
-
-.home-page .hp-navbar button:last-of-type{
-    background-color: var(--light-cyan);
-}
-
-span.close-form{
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 10;
-
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    
-    text-align: center;
-    font-size: 2rem;
-    color: #ad4732;
+    border-radius: 5px;
 
     cursor: pointer;
 }
 
-span.close-form:hover{
-    background-color: #ad4732;
-    color: white;
-}
-span.close-form:active{
-    background-color: white;
-    color: #ad4732;
+.home-page .home-page-side .hp-links button:first-of-type{
+    background-color: var(--primary-600);
+    transform: translateX(-5rem);
 }
 
-@media screen and (max-width: 1200px) {
-
-
-    .home-page .hp-project-title h1{
-        font-size: 2.65rem;
-    }
-    
-    .home-page .hp-project-title h3{
-        font-size: 1.65rem;
-    }
-
-    .home-page .hp-navbar p{
-        font-size: 1.15rem;
-    }
-
-    .home-page .hp-navbar button{
-        width: 17rem;
-        height: 3rem;
-        padding: 0.85rem 1.85rem;
-        font-size: 0.95rem;
-    }
+.home-page .home-page-side .hp-links button:last-of-type{
+    background-color: var(--accent-600);
+    transform: translateX(-2rem);
 }
 
-@media screen and (max-width: 1024px) {
-
-    .home-page-side{
-        width: 28.5rem;
-    }
-
-    .home-page .hp-project-title h1{
-        font-size: 2.45rem;
-    }
-    
-    .home-page .hp-project-title h3{
-        font-size: 1.45rem;
-    }
-
-    .home-page .hp-navbar p{
-        font-size: 1.05rem;
-    }
-
-    .home-page .hp-navbar button{
-        width: 16rem;
-        height: 3rem;
-        padding: 0.65rem 1.65rem;
-        font-size: 0.95rem;
-    }
+.home-page .home-page-side .hp-links button:first-of-type:hover{
+    background-color: var(--primary-400);
 }
 
-@media screen and (max-width: 768px) {
-
-    .home-page .hp-project-title{
-        display: none;
-    }
-
-    .home-page{
-        background-image: none;
-    }
-
-    .home-page .home-page-side{
-        width: 100%;
-        justify-content: start;
-    }
-
-
-    .home-page .hp-project-title-mobile{
-        display: block;
-        width: 100%;
-        margin-top: 1rem;
-    }
-
-
-    .home-page .hp-bg-mobile{
-        width: 100%;
-        height: 15rem;
-        background-image: url('../../assets/backgroundHomePage.jpg');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-
-    .home-page .hp-bg-mobile .hp-title-mobile{
-        position: absolute;
-        right: 0;
-
-        margin: 2.8rem 0;
-        padding: 0 1.5rem;
-        
-        text-align: end;
-
-        width: 40%;
-        height: 9rem;
-        background-color: var(--gunmetal);
-    }
-
-    .home-page .hp-project-title-mobile h1{
-        font-size: 1.8rem;
-    }
-
-    .home-page .hp-project-title-mobile h3{
-        font-size: 1.15rem;
-    }
-
-
-    .home-page .hp-project-title-mobile h1, .home-page .hp-project-title-mobile .hp-bg-mobile h3{
-        color: white;
-    }
-
-    .home-page .hp-navbar {
-        margin: 1rem 3rem;    
-    }
-
-    .home-page .hp-navbar p{
-        text-align: end;
-        font-size: 1rem;
-    }
-
-    .home-page .hp-navbar button{
-        align-self: flex-end;
-    }
-    
+.home-page .home-page-side .hp-links button:last-of-type:hover{
+    background-color: var(--accent-400);
 }
 
-@media screen and (max-width: 650px) {
-
-    .home-page .hp-bg-mobile .hp-title-mobile{
-        margin: 3.25rem 0;
-        padding: 0 1.5rem;
-
-        width: 40%;
-        height: 8rem;
-    }
-    
-    .home-page .hp-project-title-mobile h1{
-        font-size: 1.5rem;
-    }
-
-    .home-page .hp-project-title-mobile h3{
-        font-size: 1rem;
-    }
+.home-page .home-page-side .hp-links button:first-of-type:active{
+    background-color: var(--primary-500);
 }
 
-@media screen and (max-width: 550px) {
-
-    .home-page .hp-bg-mobile .hp-title-mobile{
-        margin: 3.8rem 0;
-        padding: 0 1.5rem;
-
-        height: 7.5rem;
-    }
-    
-    .home-page .hp-project-title-mobile h1{
-        font-size: 1.25rem;
-    }
-
-    .home-page .hp-project-title-mobile h3{
-        font-size: 0.9rem;
-    }
+.home-page .home-page-side .hp-links button:last-of-type:active{
+    background-color: var(--accent-500);
 }
 
-@media screen and (max-width: 480px) {
 
-    .home-page .hp-bg-mobile .hp-title-mobile{
-        margin: 3.5rem 0;
-    }
 
-    .home-page .hp-project-title-mobile h3{
-        font-size: 0.85rem;
-    }
 
-    .home-page .hp-navbar p{
-        text-align: center;
-        font-size: 1rem;
-    }
 
-    .home-page .hp-navbar button{
-        align-self: center;
-    }
 
-    .home-page .hp-navbar{
-        align-self: center;
-    }
-}
+
+
+
+
+

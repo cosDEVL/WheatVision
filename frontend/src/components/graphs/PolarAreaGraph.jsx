@@ -53,7 +53,7 @@ function PolarAreaGraph({ simulatedData }) {
     }, [simulatedData])
 
   return (
-    <>
+    <div className='round-graph'>
         <PolarArea 
           data = {graphPhasePrecipData}
           options={{
@@ -72,10 +72,14 @@ function PolarAreaGraph({ simulatedData }) {
               arc: {
                 hoverOffset: 20
               }
+            },
+            maintainAspectRatio: false,
+            animation: {
+              duration: 0
             }
           }}
         />
-    </>
+    </div>
   )
 }
 

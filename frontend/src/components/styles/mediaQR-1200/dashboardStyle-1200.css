@@ -1,0 +1,23 @@
+
+@media screen and (max-width: 1755px){
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .doughnut-polar-graphs{
+    max-width: 90rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+}
+
+@media screen and (max-width: 1319px) {
+
+    
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .doughnut-polar-graphs .graph{
+        width: 40rem;
+    }
+
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .bar-graphs .graph:last-of-type{
+        width: 43rem;
+    }
+
+
+}

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
+import './styles/barGraphStyle.css';
+
 function BarGraphNutrients({ theoricalData, simulatedData }) {
 
     const [graphNutrientsData, setGraphNutrientsData] = useState({
@@ -40,7 +42,7 @@ function BarGraphNutrients({ theoricalData, simulatedData }) {
     
 
   return (
-    <>
+    <div className='bar-graph'>
         {graphNutrientsData.datasets.length > 0 && (
             <Bar 
             data={graphNutrientsData} 
@@ -48,10 +50,14 @@ function BarGraphNutrients({ theoricalData, simulatedData }) {
               responsive: true, 
               plugins: { 
                 legend: { position: 'top' } 
+              },
+              maintainAspectRatio: false,
+              animation: {
+                duration: 0
               }
             }} />
         )}
-    </>
+    </div>
     )
 }
 

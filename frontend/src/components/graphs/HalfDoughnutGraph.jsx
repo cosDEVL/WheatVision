@@ -33,7 +33,7 @@ function HalfDoughnutGraph({ theoricalData, simulatedData }) {
     
 
   return (
-    <>
+    <div className='round-graph'>
         {graphPrecipData.datasets.length > 0 && (
             <Doughnut 
             data = {graphPrecipData}
@@ -50,11 +50,15 @@ function HalfDoughnutGraph({ theoricalData, simulatedData }) {
                 arc: {
                   hoverOffset: 100
                 }
-              } 
+              },
+              maintainAspectRatio: false,
+              animation: {
+                duration: 0
+              }
             }}
           />
         )}
-    </>
+    </div>
   )
 }
 

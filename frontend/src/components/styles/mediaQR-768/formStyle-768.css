@@ -1,0 +1,12 @@
+@media screen and (max-width: 768px) {
+
+    .form-side form{
+        width: 25rem;
+        height: 50rem;
+    }
+
+    .form-side form .header{
+        width: 25rem;
+    }
+
+}
