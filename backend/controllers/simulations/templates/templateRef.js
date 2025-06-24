@@ -1,38 +1,38 @@
 const templateTeoreticPerPhase = [
     {
         phase: 'germination',
-        durationRef: [10, 20], // durata minima e massima. questo serve per stabilire quanti giorni dura la fase. questo in parte dipende dalla densità. più alta la densità, più giorni dura e viceversa. 
+        durationRef: [7, 20], // durata minima e massima. questo serve per stabilire quanti giorni dura la fase. questo in parte dipende dalla densità. più alta la densità, più giorni dura e viceversa. 
         tempMeanRef: [0, 15], // range di temperatura accettabile in questa fase
         humidityMeanRef: [50, 80], // range di umidità accettabile in questa fase
-        precipitationMeanRef: [0.2, 0.23]
+        precipitationMeanRef: [0.05, 0.1] // 20mm -- 40mm
     },
     {
         phase: 'tillering',
-        durationRef: [40, 60], 
+        durationRef: [30, 50], 
         tempMeanRef: [0, 15],
         humidityMeanRef: [45, 75],
-        precipitationMeanRef: [0.25, 0.27]
+        precipitationMeanRef: [0.25, 0.325] // 100mm -- 130mm
     },
     {
-        phase: 'raised',
-        durationRef: [30, 40], 
+        phase: 'stem elongation',
+        durationRef: [25, 40], 
         tempMeanRef: [10, 25],
         humidityMeanRef: [40, 70],
-        precipitationMeanRef: [0.23, 0.25]
+        precipitationMeanRef: [0.325, 0.375] // 130mm -- 150mm
     },
     {
         phase: 'earing and flowering',
-        durationRef: [30, 40], 
+        durationRef: [15, 30], 
         tempMeanRef: [15, 25],
         humidityMeanRef: [30, 60],
-        precipitationMeanRef: [0.15, 0.17]
+        precipitationMeanRef: [0.35, 0.5] // 140mm -- 200mm
     },
     {
         phase: 'maturation',
         durationRef: [40, 50],  
         tempMeanRef: [20, 30],
         humidityMeanRef: [20, 50],
-        precipitationMeanRef: [0.08, 0.1]
+        precipitationMeanRef: [0.025, 0.125] // 10mm -- 60mm
     },
 
 ];

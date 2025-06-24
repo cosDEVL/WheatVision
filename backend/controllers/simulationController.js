@@ -1,10 +1,8 @@
 const express = require("express");
 
 const Form = require("../models/formInput");
-const GeneralData = require("../models/generalData");
-const TheoreticalData = require("../models/theoreticalData");
-const SimulatedData = require("../models/simulatedData");
-const FinanceData = require("../models/financeData");
+const SimulationData = require('../models/simulationData');
+
 
 const { startSimulation } = require('./simulations/simulationFiles/simulatedYield'); 
 
@@ -47,9 +45,7 @@ const formInput = async (req, res) => {
         const { nomeSimulazione, periodoSemina, ettariColtivazione, densita, pesoDiMille, germinabilita, azoto, fosforo, potassio } = req.body;
 
         // Check if the simulation name is unique
-        console.log(nomeSimulazione);
         const simulationNameExists = await Form.findOne({ nomeSimulazione });
-        console.log(simulationNameExists);
         if (simulationNameExists) {
             return res.status(400).json({ message: "There is already a simulation with this name!" })
         }
@@ -94,91 +90,68 @@ const formInput = async (req, res) => {
 
         const simulationResponse = await startSimulation(form.ettariColtivazione, form.densita, form.pesoDiMille, form.germinabilita / 100, form.azoto, form.fosforo, form.potassio, form.periodoSemina);
         const generalData = simulationResponse.templateYieldData.generalData;
-        
-
-        await fetch('http://localhost:8000/api/simulation/sowingInfo', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-              },
-            body: JSON.stringify({
-                simulazioneId: form._id,
-                nomeSimulazione: form.nomeSimulazione,
-                density: generalData.density,
-                tkw: generalData.TKW,
-                germinability: generalData.germinability * 100,
-                sowingRate: generalData.sowingRate
-            })
-        })
-
-        
-        const theoreticalData = simulationResponse.templateYieldData.theoreticalData;
-        
-
-        await fetch('http://localhost:8000/api/simulation/theoreticalData', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-              },
-            body: JSON.stringify({
-                simulazioneId: form._id,
-                nomeSimulazione: form.nomeSimulazione,
-                yieldCalculatedPerHectares: theoreticalData.yieldCalculatedPerHectares,
-                tilleringIndex: theoreticalData.tilleringIndex,
-                spikeletsIndex: theoreticalData.spikeletsIndex,
-                seedsIndex: theoreticalData.seedsIndex,
-                theoreticalNitrogen: theoreticalData.theoreticalNitrogen,
-                theoreticalPhosphorus: theoreticalData.theoreticalPhosphorus,
-                theoreticalPotassium: theoreticalData.theoreticalPotassium,
-                theoreticalPrecipitations: theoreticalData.theoreticalPrecipitations
-            })
-        })
-
+        const calculatedData = simulationResponse.templateYieldData.theoreticalData;
         const simulatedData = simulationResponse.templateYieldData.simulatedData;
-        
-
-        await fetch('http://localhost:8000/api/simulation/simulatedData', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-              },
-            body: JSON.stringify({
-                simulazioneId: form._id,
-                nomeSimulazione: form.nomeSimulazione,
-                yieldSimulatedPerHectares: simulatedData.yieldSimulatedPerHectares,
-                yieldSimulatedTotal: simulatedData.yieldSimulatedTotal,
-                tilleringIndex: simulatedData.tilleringIndex,
-                spikeletsIndex: simulatedData.spikeletsIndex,
-                seedsIndex: simulatedData.seedsIndex,
-                simulatedNitrogen: simulatedData.simulatedNitrogen,
-                simulatedPhosphorus: simulatedData.simulatedPhosphorus,
-                simulatedPotassium: simulatedData.simulatedPotassium,
-                simulatedPrecipitations: simulatedData.simulatedPrecipitations,
-                hectolitreWeight: simulatedData.hectolitreWeight,
-                simulation: simulationResponse.yieldTemplateSimulationPerPhase
-            })
-        })
-
         const financeData = simulationResponse.templateYieldData.financeData;
-        
 
-        await fetch('http://localhost:8000/api/simulation/financeData', {
+
+        await fetch('http://localhost:8000/api/simulation/simulationData', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-              },
+            },
             body: JSON.stringify({
-                simulazioneId: form._id,
-                nomeSimulazione: form.nomeSimulazione,
-                wheatSeedPricePerHectares: financeData.wheatSeedPricePerHectares, // €/ton => prezzo delle sementi per tonnellate
-                wheatSeedPriceTotal: financeData.wheatSeedPriceTotal,
-                wheatType: financeData.wheatType,
-                durumWheatPricePerTons: financeData.durumWheatPricePerTons,
-                durumWheatPriceTotal: financeData.durumWheatPriceTotal
+                SimulationId: form._id,
+                SimulationName: form.nomeSimulazione,
+                GeneralData: {
+                    Density: generalData.density,
+                    TKW: generalData.TKW,
+                    Germinability: generalData.germinability,
+                    SowingRate: generalData.sowingRate
+                },
+                CalculatedData: {
+                    YieldCalculatedPerHectares: calculatedData.yieldCalculatedPerHectares,
+                    TilleringIndex: calculatedData.tilleringIndex,
+                    SpikeletsIndex: calculatedData.spikeletsIndex,
+                    SeedsIndex: calculatedData.seedsIndex,
+                    CalculatedNutrients:{
+                        Nitrogen: calculatedData.theoreticalNitrogen,
+                        Phosphorus: calculatedData.theoreticalPhosphorus,
+                        Potassium: calculatedData.theoreticalPotassium
+                    },
+                    CalculatedPrecipitations: calculatedData.theoreticalPrecipitations
+                },
+                SimulatedData: {
+                    YieldSimulated: {
+                        PerHectares: simulatedData.yieldSimulatedPerHectares,
+                        Total: simulatedData.yieldSimulatedTotal
+                    },
+                    TilleringIndex: simulatedData.tilleringIndex,
+                    SpikeletsIndex: simulatedData.spikeletsIndex,
+                    SeedsIndex: simulatedData.seedsIndex,
+                    SimulatedNutrients: {
+                        Nitrogen: simulatedData.simulatedNitrogen,
+                        Phosphorus: simulatedData.simulatedPhosphorus,
+                        Potassium: simulatedData.simulatedPotassium
+                    },
+                    SimulatedPrecipitations: simulatedData.simulatedPrecipitations,
+                    HectolitreWeight: simulatedData.hectolitreWeight,
+                    PhaseInfo: simulationResponse.yieldTemplateSimulationPerPhase,
+                    MeteoGenerated: simulationResponse.weatherGenerated
+                },
+                FinancialData: {
+                    WheatType: financeData.wheatType,
+                    WheatSeedPrice: {
+                        PerHectares: financeData.wheatSeedPricePerHectares,
+                        Total: financeData.wheatSeedPriceTotal
+                    },
+                    DurumWheatPrice:{
+                        PerTons: financeData.durumWheatPricePerTons,
+                        Total: financeData.durumWheatPriceTotal
+                    }
+                }
             })
-        })
-
-
+        }) 
 
         
         res.status(201).json({
@@ -202,138 +175,31 @@ const formInput = async (req, res) => {
 
 }   
 
+const simulationData = async (req, res) => {
 
-/**
- * @desc Post yield data into DataBase 
- * @route Post /api/simulation/yield
- */
+    const { SimulationId, SimulationName, GeneralData, CalculatedData, SimulatedData, FinancialData } = req.body;
 
-const sowingInfo = async (req, res) => {
-
-
-    const { simulazioneId, nomeSimulazione, density, tkw, germinability, sowingRate } = req.body;
-
-    const sowingInfo = await GeneralData.create({
-        simulazioneId,
-        nomeSimulazione,
-        density,
-        tkw,
-        germinability,
-        sowingRate
-    });
+    const simulationData = await SimulationData.create({
+        SimulationId, 
+        SimulationName,
+        GeneralData,
+        CalculatedData, 
+        SimulatedData,
+        FinancialData
+    })
 
     res.status(201).json({
-        nomeSimulazione: sowingInfo.nomeSimulazione,
-        density: sowingInfo.density,
-        tkw: sowingInfo.tkw,
-        germinability: sowingInfo.germinability,
-        sowingRate: sowingInfo.sowingRate
-    });
+        _id: simulationData.SimulationId,
+        SimulationName: simulationData.SimulationName,
+        GeneralData: simulationData.GeneralData,
+        CalculatedData: simulationData.CalculatedData,
+        SimulatedData: simulationData.SimulatedData,
+        FinancialData: simulationData.FinancialData
+    })
 
-}
-
-
-/**
- * @desc Post Environment data into DataBase 
- * @route Post /api/simulation/environment
- */
-
-const theoreticalData = async (req, res) => {
-
-    const { simulazioneId, nomeSimulazione, yieldCalculatedPerHectares, tilleringIndex, spikeletsIndex, seedsIndex, theoreticalNitrogen, theoreticalPhosphorus, theoreticalPotassium, theoreticalPrecipitations } = req.body;
-
-    const theoreticalSowingData = await TheoreticalData.create({
-        simulazioneId,
-        nomeSimulazione,
-        yieldCalculatedPerHectares,
-        tilleringIndex,
-        spikeletsIndex,
-        seedsIndex,
-        theoreticalNitrogen,
-        theoreticalPhosphorus,
-        theoreticalPotassium,
-        theoreticalPrecipitations
-    });
-
-    res.status(201).json({
-        nomeSimulazione: theoreticalSowingData.nomeSimulazione,
-        yieldCalculatedPerHectares: theoreticalSowingData.yieldCalculatedPerHectares,
-        tilleringIndex: theoreticalSowingData.tilleringIndex,
-        spikeletsIndex: theoreticalSowingData.spikeletsIndex,
-        seedsIndex: theoreticalSowingData.seedsIndex,
-        theoreticalNitrogen: theoreticalSowingData.theoreticalNitrogen,
-        theoreticalPhosphorus: theoreticalSowingData.theoreticalPhosphorus,
-        theoreticalPotassium: theoreticalSowingData.theoreticalPotassium,
-        theoreticalPrecipitations: theoreticalSowingData.theoreticalPrecipitations
-    });
-
-}
-
-const simulatedData = async (req, res) => {
-
-    const { simulazioneId, nomeSimulazione, yieldSimulatedPerHectares, yieldSimulatedTotal, tilleringIndex, spikeletsIndex, seedsIndex, simulatedNitrogen, simulatedPhosphorus, simulatedPotassium, simulatedPrecipitations, hectolitreWeight, simulation } = req.body;
-
-    const simulatedSowingData = await SimulatedData.create({
-        simulazioneId,
-        nomeSimulazione,
-        yieldSimulatedPerHectares,
-        yieldSimulatedTotal,
-        tilleringIndex,
-        spikeletsIndex,
-        seedsIndex,
-        simulatedNitrogen,
-        simulatedPhosphorus,
-        simulatedPotassium,
-        simulatedPrecipitations,
-        hectolitreWeight,
-        simulation
-    });
-
-    res.status(201).json({
-        nomeSimulazione: simulatedSowingData.nomeSimulazione,
-        yieldSimulatedPerHectares: simulatedSowingData.yieldSimulatedPerHectares,
-        tilleringIndex: simulatedSowingData.tilleringIndex,
-        spikeletsIndex: simulatedSowingData.spikeletsIndex,
-        seedsIndex: simulatedSowingData.seedsIndex,
-        simulatedNitrogen: simulatedSowingData.simulatedNitrogen,
-        simulatedPhosphorus: simulatedSowingData.simulatedPhosphorus,
-        simulatedPotassium: simulatedSowingData.simulatedPotassium,
-        simulatedPrecipitations: simulatedSowingData.simulatedPrecipitations,
-        hectolitreWeight: simulatedSowingData.hectolitreWeight,
-        simulation: simulatedSowingData.simulation
-    });
-
-}
+} 
 
 
-/**
- * @desc Post finance data into DataBase 
- * @route Post /api/simulation/finance
- */
 
-const financeData = async (req, res) => {
 
-    const { simulazioneId, nomeSimulazione, wheatSeedPricePerHectares, wheatSeedPriceTotal, wheatType, durumWheatPricePerTons, durumWheatPriceTotal } = req.body;
-
-    const financeData = await FinanceData.create({
-        simulazioneId,
-        nomeSimulazione,
-        wheatSeedPricePerHectares,
-        wheatSeedPriceTotal,
-        wheatType,
-        durumWheatPricePerTons,
-        durumWheatPriceTotal
-    });
-
-    res.status(201).json({
-        nomeSimulazione: financeData.nomeSimulazione,
-        wheatSeedPricePerHectares: financeData.wheatSeedPricePerHectares,
-        wheatSeedPriceTotal: financeData.wheatSeedPriceTotal,
-        wheatType: financeData.wheatType,
-        durumWheatPricePerTons: financeData.durumWheatPricePerTons,
-        durumWheatPriceTotal: financeData.durumWheatPriceTotal
-    });
-
-}
-
-module.exports = { formInput, sowingInfo, theoreticalData, simulatedData, financeData };
+module.exports = { formInput, simulationData };

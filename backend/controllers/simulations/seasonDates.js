@@ -1,6 +1,7 @@
 function getSeasonDates (year) {
     const yearSeason = [ year, year+1 ];
     const seasonsDates = {
+        September: [`${yearSeason[0]}-09-01`, `${yearSeason[0]}-09-30`],
         October: [`${yearSeason[0]}-10-01`, `${yearSeason[0]}-10-31`],
         November: [`${yearSeason[0]}-11-01`, `${yearSeason[0]}-11-30`],
         December: [`${yearSeason[0]}-12-01`, `${yearSeason[0]}-12-31`],
@@ -14,7 +15,7 @@ function getSeasonDates (year) {
         August: [`${yearSeason[1]}-08-01`, `${yearSeason[1]}-08-31`]
     }
 
-    return [yearSeason, seasonsDates]
+    return [yearSeason, seasonsDates];
 }
 
 

@@ -4,10 +4,16 @@ const { getSeasonDates } = require('../seasonDates');
 const { yieldTemplateSimulationPerPhase } = require('../templates/templateSimulation');
 const { templateTeoreticPerPhase } = require('../templates/templateRef');
 
+const { processPhase } = require('./templateSimulationFunctions');
+
+
 const { calcUniformRandom } = require('../distributions/uniformDistribution');
 const { calcNormalDistribution } = require('../distributions/normalDistribution');
+//const { generateWeather } = require('../wheaterGeneration/generateWeather');
 
 //const [yearSeason, seasonsDates] = getSeasonDates(2021);
+
+const { templateData } = require('../fetchOpenMeteo');
 
 function assignGeneralData(density, tkw, germinability, sowingRate){
 
@@ -107,162 +113,119 @@ function calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, divisor
 
 }
 
-function calcIndexs ( density, tkw, germinability, nitrogenInput, phosphorusInput, potassiumInput ) {
-
-    let result;
-
-    if (tkw > 50) {
-        
-
-        if (germinability >= 90) {
-
-            if (density <= 300) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.8, 2.0));
-            else if (density <= 400) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.4, 1.69));
-            else result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.0, 1.39));
-            
-            
-
-        } else {
-            
-            if (density <= 300) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.8, 2.0));
-            else if (density <= 400) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.6, 1.79));
-            else result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.2, 1.59));
-
-        }
-
-    } else if (tkw > 40) {
-        
-        if (germinability >= 90) {
-
-            if (density <= 300) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.8, 2.0));
-            else if (density <= 400) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.35, 1.69));
-            else result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.0, 1.34));
-            
-
-        } else {
-            
-            if (density <= 300) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.8, 2.0));
-            else if (density <= 400) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.55, 1.79));
-            else result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.2, 1.54));
-
-        }
-    } else {
-
-        if (germinability >= 90) {
-
-            if (density <= 300) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.7, 2.0));
-            else if (density <= 400) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.35, 1.69));
-            else result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.0, 1.34));
-            
-
-        } else {
-            
-            if (density <= 300) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.65, 2.0));
-            else if (density <= 400) result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.45, 1.64));
-            else result = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput, calcUniformRandom(1.0, 1.44));
-
-        }
-
-    }
-
-    return result;
-    
-
-}
 
 async function startSimulation(hectares, density, tkw, germinability, nitrogenInput, phosphorusInput, potassiumInput, sowingDate){
 
-    let sowingRate = parseFloat((((density * tkw) / (germinability * 100) ) / 1000).toFixed(2));
-    await calcTheroreticalData(density, tkw, germinability, sowingRate, sowingDate);
+    try {
 
-    let precipitationTotSimulated = 0;
-
-    for (let i = 0; i < yieldTemplateSimulationPerPhase.length; i++){
-        precipitationTotSimulated += yieldTemplateSimulationPerPhase[i].precipitationSum;
-    }
-
-    assignGeneralData(density, tkw, germinability, sowingRate);
-    assignSimulatedData (nitrogenInput, phosphorusInput, potassiumInput, precipitationTotSimulated);
-    
-    const coeffIndexs = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput);
-
-    const yieldDataSim = templateYieldData.simulatedData;
-    const yieldDataTheoric = templateYieldData.theoreticalData;
-
-    let coeffGeometricMean = [];
-    
-    for (let i = 0; i < coeffIndexs.coeffPrecip.length; i++) {
-        const temp = coeffIndexs.coeffTemp[i];
-        const humidity = coeffIndexs.coeffHumidity[i];
-        const precip = coeffIndexs.coeffPrecip[i];
-
-        coeffGeometricMean.push(Math.pow((temp * humidity * precip), 1 / 3));
-
-    }
-
-    coeffGeometricMean.push(Math.pow((coeffIndexs.coeffNitrogen * coeffIndexs.coeffPhosphorus * coeffIndexs.coeffPotassium), 1 / 3));
-    
-    let germinabilitySim = germinability * coeffGeometricMean[0];
-    let tilleringIndexSim = yieldDataTheoric.tilleringIndex * coeffGeometricMean[1];
-    let spikeletsIndexSim = yieldDataTheoric.spikeletsIndex * coeffGeometricMean[2];
-    let seedsIndexSim = yieldDataTheoric.seedsIndex * coeffGeometricMean[3];
-
-
-    let effectiveYield = sowingRate * germinabilitySim * tilleringIndexSim * spikeletsIndexSim * seedsIndexSim * coeffGeometricMean[5];
-
-
-    let hectolitreCoeff = Math.sqrt(coeffGeometricMean[4] * coeffGeometricMean[5]);
-    let hectolitreMin = 76.00;
-    let hectolitreMax = 82.00;
-    let hectolitreMean;
-
-    if (hectolitreCoeff <= 0.45)  hectolitreMean = hectolitreMin + 2;
-    else if (hectolitreCoeff <= 0.75) hectolitreMean = (hectolitreMin + hectolitreMax) / 2;
-    else hectolitreMean = hectolitreMax - 2;
-
-    let hectolitreWeight = calcNormalDistribution(hectolitreMean, hectolitreCoeff, hectolitreMin, hectolitreMax);
-
-
-    yieldDataSim.yieldSimulatedPerHectares = parseFloat(effectiveYield.toFixed(2));
-    yieldDataSim.yieldSimulatedTotal = parseFloat((effectiveYield * hectares).toFixed(2))
-    yieldDataSim.tilleringIndex = parseFloat(tilleringIndexSim.toFixed(2));
-    yieldDataSim.spikeletsIndex = parseFloat(spikeletsIndexSim.toFixed(2));
-    yieldDataSim.seedsIndex = parseFloat(seedsIndexSim.toFixed(2));
-    yieldDataSim.hectolitreWeight = parseFloat(hectolitreWeight.toFixed(2));
-    
-
-    const finance = templateYieldData.financeData;
-
-    if (hectolitreWeight >= 79.5) {
-        finance.wheatType = "Frumento Duro Fino";
-        finance.durumWheatPricePerTons = 317.5;
+        let date = new Date(sowingDate);
         
+        const weatherGenerated = await templateData(date.getFullYear(), './controllers/simulations/templates/templateSeasons.json');
+        
+        console.log("11");
+
+        let sowingRate = parseFloat((((density * tkw) / (germinability * 100) ) / 1000).toFixed(2));
+        await calcTheroreticalData(density, tkw, germinability, sowingRate, sowingDate);
+
+        await processPhase(sowingDate, density, weatherGenerated);
+
+        console.log("12");
+
+        let precipitationTotSimulated = 0;
+
+        for (let i = 0; i < yieldTemplateSimulationPerPhase.length; i++){
+            precipitationTotSimulated += yieldTemplateSimulationPerPhase[i].precipitationSum;
+        }
+
+        assignGeneralData(density, tkw, germinability, sowingRate);
+        assignSimulatedData (nitrogenInput, phosphorusInput, potassiumInput, precipitationTotSimulated);
+        
+        const coeffIndexs = calcCoeffIndexs(nitrogenInput, phosphorusInput, potassiumInput);
+
+        const yieldDataSim = templateYieldData.simulatedData;
+        const yieldDataTheoric = templateYieldData.theoreticalData;
+
+        let coeffGeometricMean = [];
+        
+        for (let i = 0; i < coeffIndexs.coeffPrecip.length; i++) {
+            const temp = coeffIndexs.coeffTemp[i];
+            const humidity = coeffIndexs.coeffHumidity[i];
+            const precip = coeffIndexs.coeffPrecip[i];
+
+            coeffGeometricMean.push(Math.pow((temp * humidity * precip), 1 / 3));
+
+        }
+
+        coeffGeometricMean.push(Math.pow((coeffIndexs.coeffNitrogen * coeffIndexs.coeffPhosphorus * coeffIndexs.coeffPotassium), 1 / 3));
+        
+        let germinabilitySim = germinability * coeffGeometricMean[0];
+        let tilleringIndexSim = yieldDataTheoric.tilleringIndex * coeffGeometricMean[1];
+        let spikeletsIndexSim = yieldDataTheoric.spikeletsIndex * coeffGeometricMean[2];
+        let seedsIndexSim = yieldDataTheoric.seedsIndex * coeffGeometricMean[3];
+
+
+        let effectiveYield = sowingRate * germinabilitySim * tilleringIndexSim * spikeletsIndexSim * seedsIndexSim * coeffGeometricMean[5];
+
+
+        let hectolitreCoeff = Math.sqrt(coeffGeometricMean[4] * coeffGeometricMean[5]);
+        let hectolitreMin = 76.00;
+        let hectolitreMax = 82.00;
+        let hectolitreMean;
+
+        if (hectolitreCoeff <= 0.45)  hectolitreMean = hectolitreMin + 2;
+        else if (hectolitreCoeff <= 0.75) hectolitreMean = (hectolitreMin + hectolitreMax) / 2;
+        else hectolitreMean = hectolitreMax - 2;
+
+        let hectolitreWeight = calcNormalDistribution(hectolitreMean, hectolitreCoeff, hectolitreMin, hectolitreMax);
+
+
+        yieldDataSim.yieldSimulatedPerHectares = parseFloat(effectiveYield.toFixed(2));
+        yieldDataSim.yieldSimulatedTotal = parseFloat((effectiveYield * hectares).toFixed(2))
+        yieldDataSim.tilleringIndex = parseFloat(tilleringIndexSim.toFixed(2));
+        yieldDataSim.spikeletsIndex = parseFloat(spikeletsIndexSim.toFixed(2));
+        yieldDataSim.seedsIndex = parseFloat(seedsIndexSim.toFixed(2));
+        yieldDataSim.hectolitreWeight = parseFloat(hectolitreWeight.toFixed(2));
+        
+
+        const finance = templateYieldData.financeData;
+
+        if (hectolitreWeight >= 79.5) {
+            finance.wheatType = "Frumento Duro Fino";
+            finance.durumWheatPricePerTons = 317.5;
+            
+        }
+        else if (hectolitreWeight >= 78.0) {
+            finance.wheatType = "Frumento Duro Buon Mercantile";
+            finance.durumWheatPricePerTons = 307.5;
+        }
+        if (hectolitreWeight >= 76.0) {
+            finance.wheatType = "Frumento Duro Mercantile";
+            finance.durumWheatPricePerTons = 295.5;
+        }
+
+        let wheatSeedPricePerHectares = 317.5 * sowingRate;
+        let wheatSeedPriceTotal = wheatSeedPricePerHectares * hectares;
+        let durumWheatPriceTotal = finance.durumWheatPricePerTons * (effectiveYield * hectares);
+
+        finance.wheatSeedPricePerHectares = parseFloat(wheatSeedPricePerHectares.toFixed(2));
+        finance.wheatSeedPriceTotal = parseFloat(wheatSeedPriceTotal.toFixed(2));
+        finance.durumWheatPriceTotal = parseFloat(durumWheatPriceTotal.toFixed(2));
+
+        console.log("13");
+
+        return {
+            templateYieldData,
+            yieldTemplateSimulationPerPhase, 
+            weatherGenerated
+        }
+            
+    } catch (error) {
+        console.log(error);
     }
-    else if (hectolitreWeight >= 78.0) {
-        finance.wheatType = "Frumento Duro Buon Mercantile";
-        finance.durumWheatPricePerTons = 307.5;
-    }
-    if (hectolitreWeight >= 76.0) {
-        finance.wheatType = "Frumento Duro Mercantile";
-        finance.durumWheatPricePerTons = 295.5;
-    }
 
-    let wheatSeedPricePerHectares = 317.5 * sowingRate;
-    let wheatSeedPriceTotal = wheatSeedPricePerHectares * hectares;
-    let durumWheatPriceTotal = finance.durumWheatPricePerTons * (effectiveYield * hectares);
-
-    finance.wheatSeedPricePerHectares = parseFloat(wheatSeedPricePerHectares.toFixed(2));
-    finance.wheatSeedPriceTotal = parseFloat(wheatSeedPriceTotal.toFixed(2));
-    finance.durumWheatPriceTotal = parseFloat(durumWheatPriceTotal.toFixed(2));
+    
 
 
-    console.log(templateYieldData);
-    console.log(yieldTemplateSimulationPerPhase);
-
-    return {
-        templateYieldData,
-        yieldTemplateSimulationPerPhase
-    }
 
     
 }

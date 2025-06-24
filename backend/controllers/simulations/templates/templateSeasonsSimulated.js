@@ -94,7 +94,7 @@ let templateSeasonsSimulated = [
       },
     {
         yearRef: yearSeason,
-        month: "Agaust",
+        month: "August",
         startDate: `${yearSeason[1]}-08-01`,
         endDate: `${yearSeason[1]}-08-31`,
         precipitationSum: null,

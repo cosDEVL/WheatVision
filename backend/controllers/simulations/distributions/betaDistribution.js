@@ -1,22 +1,16 @@
 const { randomBeta } = require('d3-random');
 
 
-function calcBetaRandom(optimalValue, minValue, maxValue){
+function calcBetaRandom(mean, variance) {
 
-    let relativeMean = (optimalValue - minValue) / (maxValue - minValue);
-    const variance = 0.3;
+    const common = Math.abs(((mean * (1 - mean)) / variance) - 1);
 
-    let common = (relativeMean * Math.abs( 1 - relativeMean )) / Math.abs(variance -1);
 
-    let alpha = relativeMean * common;
-    let beta = (1 - relativeMean) * common;
+    const alpha = mean * common;
+    const beta = Math.abs((1 - mean) * common);
 
-    
 
-    const betaRand = randomBeta(alpha, beta)();
-    
-
-    return parseFloat((minValue + betaRand * (maxValue - minValue)).toFixed(2));
+    return parseFloat((randomBeta(alpha, beta)()).toFixed(2));
 
 }   
 
