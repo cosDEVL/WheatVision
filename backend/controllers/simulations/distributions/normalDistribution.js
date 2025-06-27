@@ -1,6 +1,6 @@
 const { randomNormal } = require('d3-random');
 
-function calcNormalDistribution(mean, stdDev, min, max = undefined){
+function calcNormalDistribution(mean, stdDev, min = undefined, max = undefined){
     let value;
     if (!max) {
         do {

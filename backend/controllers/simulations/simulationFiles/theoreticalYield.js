@@ -1,11 +1,5 @@
 const { templateYieldData } = require('../templates/templateYieldData');
-const { templateTeoreticTotal, templateTeoreticPerPhase } = require('../templates/templateRef');
-const { meteoData, templateData } = require('../fetchOpenMeteo');
-const {getSeasonDates} = require('../seasonDates');
-
-const {processPhase} = require('./templateSimulationFunctions');
-
-const { calcBetaRandom } = require('../distributions/betaDistribution');
+const { templateTeoreticTotal } = require('../templates/templateRef');
 
 
 function assingTheoreticalData( density, tkw, germinability, spikeletsPerSpike, seedsPerSpikelet, sowingRate, tilleringIndex, theoreticalYield, totalNutrients, totalPrecipitations ) {
@@ -49,9 +43,9 @@ function calcTheroreticalNutrients( theoreticalYield, density ){
         potassiumOptimal = potassiumRange[0] + 0.45;
     }
 
-    let nitrogenBeta = calcBetaRandom(nitrogenOptimal, nitrogenRange[0], nitrogenRange[1]);
-    let phosphorusBeta = calcBetaRandom(phosphorusOptimal, phosphorusRange[0], phosphorusRange[1]);
-    let potassiumBeta = calcBetaRandom(potassiumOptimal, potassiumRange[0], potassiumRange[1]);
+    //let nitrogenBeta = calcBetaRandom(nitrogenOptimal, nitrogenRange[0], nitrogenRange[1]);
+    //let phosphorusBeta = calcBetaRandom(phosphorusOptimal, phosphorusRange[0], phosphorusRange[1]);
+    //let potassiumBeta = calcBetaRandom(potassiumOptimal, potassiumRange[0], potassiumRange[1]);
 
 
     return [
@@ -66,40 +60,22 @@ function calcTheroreticalNutrients( theoreticalYield, density ){
 
 function calcTheroreticalPrecipitations(density){
 
-    const precipitationRef = templateTeoreticTotal.precipitationTotalRef.precipitationTheoretical;
-    const precipitationVar =  templateTeoreticTotal.precipitationTotalRef.precipitationTheoretical[2];
+    let precipitationsTheor;
 
-    let precipitationBeta;
+    if (density <= 250) precipitationsTheor = 400;
+    else if (density <= 350) precipitationsTheor = 450;
+    else if (density === 400) precipitationsTheor = 500;
+    else if (density === 450) precipitationsTheor = 550;
+    else if (density <= 550) precipitationsTheor = 600;
 
-    if (density <= 300) {
-        let precipitationMax = precipitationRef[0] + precipitationVar;
-        precipitationBeta = (precipitationRef[0] + precipitationMax) / 2;
-
-    }
-    else if (density <= 400) {
-        let precipitationMin = precipitationRef[0] + precipitationVar - 35;
-        let precipitationMax = precipitationRef[1] - precipitationVar + 35;
-        precipitationBeta = (precipitationMin + precipitationMax) / 2;
-
-    }
-    else {
-        let precipitationMin = precipitationRef[1] - precipitationVar;
-        precipitationBeta = (precipitationMin + precipitationRef[1]) / 2;
-    }
-
-
-    return parseFloat(precipitationBeta.toFixed(2));
+    return precipitationsTheor;
 
 }
 
 
-async function calcTheroreticalData( density, tkw, germinability, sowingRate, sowingDate ){
+async function calcTheroreticalData( density, tkw, germinability, sowingRate ){
 
-    let date = new Date(sowingDate);
-
-
-    await templateData(date.getFullYear(), './controllers/simulations/templates/templateSeasons.json');
-
+    
     const tilleringIndex = templateYieldData.theoreticalData.tilleringIndex;
     const spikeletsIndex = templateYieldData.theoreticalData.spikeletsIndex;
     const seedsIndex = templateYieldData.theoreticalData.seedsIndex;
@@ -112,8 +88,6 @@ async function calcTheroreticalData( density, tkw, germinability, sowingRate, so
 
     calcTheroreticalNutrients( theoreticalYield, density );
     assingTheoreticalData( density, tkw, germinability, spikeletsIndex, seedsIndex, sowingRate, tilleringIndex, theoreticalYield, totalNutrients, totalPrecipitations );
-
-    await processPhase(sowingDate, density);
 
 }
 

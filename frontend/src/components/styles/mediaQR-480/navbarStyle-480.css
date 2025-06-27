@@ -1,0 +1,15 @@
+@media screen and (max-width: 670px){
+    .navbar .logo p{
+        display: none;
+    }  
+}
+
+@media screen and (max-width: 480px) {
+    .navbar .logo{
+        margin-left: 2rem;
+    }
+
+    .navbar .navLinks{
+        margin-right: 2rem;
+    }
+}

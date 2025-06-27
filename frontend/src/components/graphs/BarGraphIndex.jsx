@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
+import './styles/barGraphStyle.css';
+
+
 function BarGraphIndex({ theoricalData, simulatedData }) {
 
   const [graphIndexData, setGraphIndexData] = useState({
@@ -20,18 +23,18 @@ function BarGraphIndex({ theoricalData, simulatedData }) {
           {
             label: 'Valore Teorico',
             data: [
-              theoricalData.tilleringIndex || 0,
-              theoricalData.spikeletsIndex || 0,
-              theoricalData.seedsIndex || 0
+              theoricalData.TilleringIndex || 0,
+              theoricalData.SpikeletsIndex || 0,
+              theoricalData.SeedsIndex || 0
             ],
             backgroundColor: '#8884d8'
           },
           {
             label: 'Valore Simulato',
             data: [
-              simulatedData.tilleringIndex || 0,
-              simulatedData.spikeletsIndex || 0,
-              simulatedData.seedsIndex || 0
+              simulatedData.TilleringIndex || 0,
+              simulatedData.SpikeletsIndex || 0,
+              simulatedData.SeedsIndex || 0
             ],
             backgroundColor: '#82ca9d'
           }
@@ -41,19 +44,27 @@ function BarGraphIndex({ theoricalData, simulatedData }) {
   }, [theoricalData, simulatedData]); // <-- Si aggiorna solo quando questi cambiano
 
   return (
-    <>
+    <div className='general-info-canvas'>
+      <h4>Confronto Indici di semina teorici/simulati</h4>
       {graphIndexData.datasets.length > 0 && ( // <-- così eviti errori se vuoto
-        <Bar 
-          data={graphIndexData} 
-          options={{ 
-            responsive: true, 
-            plugins: { 
-              legend: { position: 'top' } 
-            }
-          }} 
-        />
+        <div className='bar-graph canvas'>
+          
+          <Bar 
+            data={graphIndexData} 
+            options={{ 
+              responsive: true, 
+              plugins: { 
+                legend: { position: 'top' } 
+              },
+              maintainAspectRatio: false,
+              animation: {
+                duration: 0
+              }
+            }}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 }
 

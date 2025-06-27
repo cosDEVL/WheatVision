@@ -6,8 +6,11 @@ let yieldTemplateSimulationPerPhase = [
             startDate: null,
             endDate: null
         },
+        tempSimulated: null,
         tempMean: null,
+        humiditySimulated: null,
         humidityMean: null,
+        precipSimulated: null,
         precipitationSum: null
     },
     {
@@ -17,8 +20,11 @@ let yieldTemplateSimulationPerPhase = [
             startDate: null,
             endDate: null
         },
+        tempSimulated: null,
         tempMean: null,
+        humiditySimulated: null,
         humidityMean: null,
+        precipSimulated: null,
         precipitationSum: null
     },
     {
@@ -28,8 +34,11 @@ let yieldTemplateSimulationPerPhase = [
             startDate: null,
             endDate: null
         },
+        tempSimulated: null,
         tempMean: null,
+        humiditySimulated: null,
         humidityMean: null,
+        precipSimulated: null,
         precipitationSum: null
     },
     {
@@ -39,8 +48,11 @@ let yieldTemplateSimulationPerPhase = [
             startDate: null,
             endDate: null
         },
+        tempSimulated: null,
         tempMean: null,
+        humiditySimulated: null,
         humidityMean: null,
+        precipSimulated: null,
         precipitationSum: null
     },
     {
@@ -50,8 +62,11 @@ let yieldTemplateSimulationPerPhase = [
             startDate: null,
             endDate: null
         },
+        tempSimulated: null,
         tempMean: null,
+        humiditySimulated: null,
         humidityMean: null,
+        precipSimulated: null,
         precipitationSum: null
     },
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
+import './styles/barGraphWideStyle.css';
+
 function BarGraphTempHum({ simulatedData }) {
 
   const [graphPhaseTempHumData, setGraphPhaseTempHumData] = useState({
@@ -20,11 +22,11 @@ function BarGraphTempHum({ simulatedData }) {
 ];
 
   useEffect(() => {
-    simulatedData.simulation.forEach((phase) => {
+    simulatedData.PhaseInfo.forEach((phase) => {
       dateRanges.push(`Data inizio: ${phase.duration.startDate}\nData fine: ${phase.duration.endDate}`);
     })
   
-    simulatedData.simulation.forEach((phase) => {
+    simulatedData.PhaseInfo.forEach((phase) => {
       tempPerPhase.push(phase.tempMean);
       humidityPerPhase.push(phase.humidityMean)
     })
@@ -47,7 +49,7 @@ function BarGraphTempHum({ simulatedData }) {
   }, [simulatedData])
 
   return (
-    <>
+    <div className='bar-graph-wide'>
         {graphPhaseTempHumData.datasets.length > 0 && (
           <Bar 
             data={graphPhaseTempHumData} 
@@ -63,11 +65,15 @@ function BarGraphTempHum({ simulatedData }) {
                     }
                   }
                 }
+              },
+              maintainAspectRatio: false,
+              animation: {
+                duration: 0
               }
             }} 
           />
         )}
-    </>
+    </div>
   )
 }
 

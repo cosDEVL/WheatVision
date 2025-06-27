@@ -1,0 +1,32 @@
+@media screen and (max-width: 1024px) {
+    .home-page .home-page-side{
+        width: 30rem;
+    }
+
+    .home-page .home-page-side .hp-title,
+    .home-page .home-page-side .hp-links{
+        width: 25rem;
+        margin-left: 3rem;
+    }
+
+    .home-page .home-page-side .hp-title h1{
+        font-size: 3rem;
+    }
+
+    .home-page .home-page-side .hp-title h3{
+        font-size: 2rem;
+    }
+
+    .home-page .home-page-side .hp-links button{
+        width: 15rem;
+        height: 3.8rem;
+    }
+
+    .home-page .home-page-side .hp-links button:first-of-type{
+        transform: none;
+    }
+    
+    .home-page .home-page-side .hp-links button:last-of-type{
+        transform: none;
+    }
+}

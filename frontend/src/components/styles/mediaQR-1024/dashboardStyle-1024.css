@@ -1,0 +1,72 @@
+@media screen and (max-width: 1080px) {
+
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .doughnut-polar-graphs .graph{
+        width: 30rem;
+    }
+
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .bar-graphs .graph{
+        width: 38.75rem;
+    }
+
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .bar-graphs .graph:last-of-type{
+        width: 38.75rem;
+    }
+    
+}
+
+@media screen and (max-width: 1024px) {
+
+    .dashboard-page .dashboard-data .data-result .dashboard-result{
+        margin: 0;
+        padding-top: 3rem;
+    }
+
+    .dashboard-page .dashboard-data .form-cards{
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    
+
+    .static-info{
+        position: relative;
+        top: 0;
+        margin: 0 auto 4rem;
+        width: 80%;
+        text-align: start;
+    }
+
+    .static-info .card .section-title{
+        margin: 0 0 1rem;
+        text-align: center;
+    }
+
+    .static-info .card section span:last-of-type{
+        display: inline;
+    }
+
+    .static-info .card section{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs{
+        margin: 0 auto;
+        
+    }
+
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .doughnut-polar-graphs .graph,
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .bar-graphs .graph,
+    .dashboard-page .dashboard-data .data-result .dashboard-result .graphs .bar-graphs .graph:last-of-type{
+        width: 40rem;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .dashboard-page .dashboard-data .form-cards .card:hover{
+        margin: 0;
+        box-shadow: none;
+    }
+    
+}

@@ -1,0 +1,39 @@
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+.bar-graph-wide{
+    width: 53rem;
+    padding: 1rem;
+}
+
+@media screen and (max-width: 1300px) {
+    .bar-graph-wide{
+        width: 40rem;
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    .bar-graph-wide{
+        width: 37rem;
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .bar-graph-wide{
+        width: 32rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .bar-graph-wide{
+        width: 29rem;
+    }
+}
+
+@media screen and (max-width: 510px) {
+    .bar-graph-wide{
+        width: 22rem;
+    }
+}

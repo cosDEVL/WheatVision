@@ -1,0 +1,28 @@
+.general-info-canvas{
+    background-color: var(--background-50);
+
+    width: 600px;
+    height: 400px;
+
+    padding: 0.35rem;
+    border-radius: 10px;
+    box-shadow: var(--accent-400) 5px 5px 5px 2px;
+
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.general-info-canvas h4{
+    margin: 0;
+    padding: 1rem;
+    text-align: center;
+
+    background-color: var(--accent-800);
+    color: var(--text-50);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.general-info-canvas .canvas{
+    margin: 1rem auto;
+}

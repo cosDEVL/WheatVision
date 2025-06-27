@@ -1,0 +1,99 @@
+@media screen and (max-width: 768px) {
+
+    .home-page{
+        display: none;
+    }
+
+    .home-page-smDevice{
+        display: block;
+        height: 100dvh;
+        background-color: var(--text-950);
+        color: var(--background-50);
+    }
+
+    .home-page-smDevice .home-page-bg{
+        display: block;
+        width: 100%;
+        height: 30rem;
+        background-image: url('../../../assets/backgroundHomePage.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .home-page-smDevice .home-page-bg .hp-title{
+        background-color: var(--text-950);
+        color: var(--background-50);
+
+        width: 25rem;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+        padding-right: 1.5rem;
+
+        text-align: end;
+
+        position: absolute;
+        right: 0;
+    }
+
+    .home-page-smDevice .home-page-bg .hp-title h1,
+    .home-page-smDevice .home-page-bg .hp-title h3{
+        margin: 0;
+    }
+
+    .home-page-smDevice .home-page-bg .hp-title h1{
+        font-size: 3rem;
+    }
+
+    .home-page-smDevice .home-page-bg .hp-title h3{
+        font-size: 1.5rem;
+    }
+
+    .home-page-smDevice .hp-links{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        width: 40rem;
+        margin: 2rem auto 0;
+    }
+
+    .home-page-smDevice .hp-links button{
+        width: 20rem;
+        height: 4rem;
+        margin-bottom: 1rem;
+
+        border: none;
+        border-radius: 5px;
+
+        cursor: pointer;
+    }
+
+    .home-page-smDevice .hp-links button:first-of-type{
+        margin-top: 1rem;
+        background-color: var(--primary-600);
+        transform: translateX(-5rem);
+    }
+    
+    .home-page-smDevice .hp-links button:last-of-type{
+        background-color: var(--accent-600);
+        transform: translateX(-2rem);
+    }
+    
+    .home-page-smDevice .hp-links button:first-of-type:hover{
+        background-color: var(--primary-400);
+    }
+    
+    .home-page-smDevice .hp-links button:last-of-type:hover{
+        background-color: var(--accent-400);
+    }
+    
+    .home-page-smDevice .hp-links button:first-of-type:active{
+        background-color: var(--primary-500);
+    }
+    
+    .home-page-smDevice .hp-links button:last-of-type:active{
+        background-color: var(--accent-500);
+    }
+
+}

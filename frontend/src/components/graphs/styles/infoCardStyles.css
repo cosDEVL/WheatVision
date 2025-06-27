@@ -1,0 +1,110 @@
+.info-card{
+    background-color: var(--background-50);
+    box-shadow: var(--accent-400) 5px 5px 5px 2px;
+    border-radius: 10px;
+    border-color: var(--background-50);
+    border: var(--background-50) solid 2px;
+
+    margin-top: 2rem;
+    margin-left: 3rem;
+    margin-bottom: 4rem;
+    margin-right: 1rem;
+    min-width: 500px;
+    width: 500px;
+    height: fit-content;
+
+
+}
+
+.info-card .card-title{
+    margin: 0.2rem;
+    padding: 1rem;
+    display: block;
+    background-color: var(--accent-800);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+    color: var(--text-50);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+
+    height: fit-content;
+}
+
+.info-card .info{
+    margin: 0.2rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-400);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+    position: relative;
+}
+
+.info-card .info div {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-card .info div .section-title{
+    padding: 1rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: var(--secondary-400);
+    color: var(--accent-800);
+
+    
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}
+
+.info-card .info div .section-title button{
+    background: none;
+    border: none;
+
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    cursor: pointer;
+
+}
+
+.info-card .info div:first-of-type .section-title{
+    margin-top: 0;
+}
+
+.info-card .info div section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    margin-bottom: 0.6rem;
+
+    background-color: var(--primary-200);
+
+    min-height: 1.8rem;
+    
+}
+
+.info-card .info div section:last-of-type{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+    margin-bottom: 0;
+}
+
+.info-card .info div section span:first-of-type{
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}

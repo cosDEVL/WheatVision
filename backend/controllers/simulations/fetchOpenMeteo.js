@@ -1,60 +1,56 @@
 const fs = require('fs');
 const {getSeasonDates} = require('./seasonDates');
+const {generateWeather} = require('./wheaterGeneration/generateWeather');
 
-function weekIteratorMax(value){
-
-    let maxValueWeek= [];
-
-    for (let i = 0; i < value.length; i += 7){
-        let weekValues = value.slice(i, i+7);
-        let weekValuesReduced = weekValues.reduce((a, b) => Math.max(a, b), -Infinity);
-        maxValueWeek.push(weekValuesReduced);
-    }    
-
-        return maxValueWeek;
-
+const precipitation_probability = {
+    "January": {"mean": 0.225, "variance": 0.0425},
+    "February": {"mean": 0.225, "variance": 0.0425},
+    "March": {"mean": 0.1925, "variance": 0.0218},
+    "April": {"mean": 0.1925, "variance": 0.0218},
+    "May": {"mean": 0.1925, "variance": 0.0218},
+    "June": {"mean": 0.124, "variance": 0.0904},
+    "July": {"mean": 0.124, "variance": 0.0904},
+    "August": {"mean": 0.124, "variance": 0.0904},
+    "September": {"mean": 0.2075, "variance": 0.1268},
+    "October": {"mean": 0.2075, "variance": 0.1268},
+    "November": {"mean": 0.2075, "variance": 0.1268},
+    "December": {"mean": 0.225, "variance": 0.0425},
 }
 
-function weekIteratorMin(value){
-
-    let minValueWeek= [];
-
-    for (let i = 0; i < value.length; i += 7){
-        let weekValues = value.slice(i, i+7);
-        let weekValuesReduced = weekValues.reduce((a, b) => Math.min(a, b), +Infinity);
-        minValueWeek.push(weekValuesReduced);
-    }    
-
-        return minValueWeek;
-
+const precipitationAvg = {
+    "January": 54,
+    "February": 46,
+    "March": 54,
+    "April": 55,
+    "May": 38,
+    "June": 29,
+    "July": 23,
+    "August": 21,
+    "September": 39,
+    "October": 47,
+    "November": 56,
+    "December": 60,
 }
 
-function weekMeanIterator(value){
-
-    let meanValueWeek= [];
-
-    for (let i = 0; i < value.length; i += 7){
-        let weekValues = value.slice(i, i+7);
-        let weekValuesSum = weekValues.reduce((a, b) => a + b, 0);
-
-        meanValueWeek.push(parseFloat((weekValuesSum / weekValues.length).toFixed(2)));
-    }    
-
-        return meanValueWeek;
-
+const margin = {
+    "January": 2,
+    "February": 3,
+    "March": 3,
+    "April": 4,
+    "May": 4,
+    "June": 5,
+    "July": 5,
+    "August": 5,
+    "September":4,
+    "October": 3,
+    "November": 2,
+    "December": 2,
 }
 
-function weekPrecipitationsIterator(value) {
 
-    let sumValueWeek= [];
+function calcMeanValue(array){
 
-    for (let i = 0; i < value.length; i += 7){
-        let weekValues = value.slice(i, i+7);
-
-        sumValueWeek.push(parseFloat(weekValues.reduce((a, b) => a + b, 0).toFixed(2)));
-    }    
-
-        return sumValueWeek;
+    return parseFloat((array.reduce((a, b) => a + b, 0) / array.length).toFixed(2));
 
 }
 
@@ -62,70 +58,86 @@ async function meteoData(seasonsDates, yearSeason, path) {
 
     let templateJson = [];
 
-    for (const [key, value] of Object.entries(seasonsDates)) {
+    try {
+        
+        for (const [key, value] of Object.entries(seasonsDates)) {
 
-        const [startDate, endDate] = value
+        const [startDate, endDate] = value;
 
-        await fetch(`https://historical-forecast-api.open-meteo.com/v1/forecast?latitude=41.4584&longitude=15.5519&start_date=${startDate}&end_date=${endDate}&daily=temperature_2m_max,temperature_2m_mean,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_mean,relative_humidity_2m_min,precipitation_sum`)
-        .then((response) => response.json())
-        .then((response) => {
+        const response = await fetch(`https://historical-forecast-api.open-meteo.com/v1/forecast?latitude=41.4584&longitude=15.5519&start_date=${startDate}&end_date=${endDate}&daily=temperature_2m_max,temperature_2m_mean,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_mean,relative_humidity_2m_min,precipitation_sum`)
+        const data = await response.json();
 
-            let daily = response.daily;
+        if(!data || !data.daily) {
+            console.error(`Errore: dati non validi per ${key} - ${startDate} - ${endDate}`);
+            continue;
+        }
 
-            let precipitationSum = weekPrecipitationsIterator(daily.precipitation_sum);
-            let maxTemp = weekIteratorMax(daily.temperature_2m_max);
-            let meanTemp = weekMeanIterator(daily.temperature_2m_mean);
-            let minTemp = weekIteratorMin(daily.temperature_2m_min);
-            let maxHumidity = weekIteratorMax(daily.relative_humidity_2m_max);
-            let meanHumidity = weekMeanIterator(daily.relative_humidity_2m_mean);
-            let minHumidity = weekIteratorMin(daily.relative_humidity_2m_min);
+        const daily = data.daily;
 
             let template = {
                 yearRef: yearSeason,
                 month: `${key}`,
                 startDate: startDate,
                 endDate: endDate,
-                precipitationSum: precipitationSum,
-                maxTemp: maxTemp,
-                minTemp: minTemp,
-                meanTemp: meanTemp,
-                maxHumidity: maxHumidity,
-                minHumidity: minHumidity,
-                meanHumidity: meanHumidity
+                precipitationAvgRef: precipitationAvg[`${key}`],
+                precipitation_probability: precipitation_probability[`${key}`],
+                precipitationSum: daily.precipitation_sum,
+                minTemp: calcMeanValue(daily.temperature_2m_min) - margin[`${key}`],
+                maxTemp: calcMeanValue(daily.temperature_2m_max) + margin[`${key}`],
+                meanTemp: daily.temperature_2m_mean,
+                minHumidity: calcMeanValue(daily.relative_humidity_2m_min) - margin[`${key}`],
+                maxHumidity: calcMeanValue(daily.relative_humidity_2m_max) + margin[`${key}`],
+                meanHumidity: daily.relative_humidity_2m_mean
             };
 
             templateJson.push(template);
-        })
+        }
+
+        fs.writeFileSync(path, JSON.stringify(templateJson, null, 1), 'utf-8');
+        console.log("Saved");
+        
+        return templateJson;
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+        
     }
 
 
-        await fs.writeFileSync(path, JSON.stringify(templateJson), 'utf-8');
-        console.log("Saved");
-        
-     }
-
-
 async function templateData(year, path) {
-
+    console.log("1");
     const [yearSeason, seasonsDates] = getSeasonDates(year);
+console.log("2");
+    let data;
+    console.log("3");
+    try {
+        console.log("4");
+        const raw = fs.readFileSync(path, 'utf-8');
+        console.log("5");
+        data = JSON.parse(raw);
+        console.log("6");
+    } catch (err) {
 
-        let seasonsTemplateData = fs.readFileSync(path, 'utf-8');
-        let data = JSON.parse(seasonsTemplateData);
-        
-        if (data.length > 0 && data[0].yearRef[0] === yearSeason[0]) {
-            
-            console.log("Meteo data retrieved");
-            return(data);
-        }
-        else {
-            await meteoData(seasonsDates, yearSeason, path);
-            await templateData(year, path);
-            console.log("Meteo data changed");
-        }
+        data = []; // file non esistente o non leggibile
+    }
+
+    console.log("7");
+    if (data.length === 0 || data[0].yearRef[0] !== yearSeason[0]) {
+        console.log("8");
+        // genera nuovi dati se non esistono o non aggiornati
+        data = await meteoData(seasonsDates, yearSeason, path);
+        console.log("9");
+    }
+    console.log("10");
+
+    return generateWeather(data);
 }
 
 
+
  
-module.exports = { meteoData, templateData };
+module.exports = { templateData };
  
  

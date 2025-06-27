@@ -24,13 +24,13 @@ function PolarAreaGraph({ simulatedData }) {
           "Maturazione"
       ];
         
-        simulatedData.simulation.forEach((phase) => {
+        simulatedData.PhaseInfo.forEach((phase) => {
             dateRanges.push(`Data inizio: ${phase.duration.startDate}\nData fine: ${phase.duration.endDate}`);
         })
 
         setDates(dateRanges);
 
-        simulatedData.simulation.forEach((phase) => {
+        simulatedData.PhaseInfo.forEach((phase) => {
             precipPerPhase.push(phase.precipitationSum);
         })
     
@@ -53,7 +53,7 @@ function PolarAreaGraph({ simulatedData }) {
     }, [simulatedData])
 
   return (
-    <>
+    <div className='round-graph'>
         <PolarArea 
           data = {graphPhasePrecipData}
           options={{
@@ -72,10 +72,14 @@ function PolarAreaGraph({ simulatedData }) {
               arc: {
                 hoverOffset: 20
               }
+            },
+            maintainAspectRatio: false,
+            animation: {
+              duration: 0
             }
           }}
         />
-    </>
+    </div>
   )
 }
 

@@ -1,123 +1,109 @@
-const fs = require('fs');
-
-const {templateTeoreticPerPhase, templateTeoreticTotal} = require('../templates/templateRef');
-const {yieldTemplateSimulationPerPhase, yieldTemplateSimulationTotal} = require('../templates/templateSimulation');
-const {templateYieldData} = require('../templates/templateYieldData');
-const { templateSeasonsSimulated, seasonalStdDev } = require('../templates/templateSeasonsSimulated');
-const {templateData} = require('../fetchOpenMeteo');
-
-const {calcBetaRandom} = require('../distributions/betaDistribution');
-const { calcNormalDistribution } = require('../distributions/normalDistribution');
+const { templateTeoreticPerPhase } = require('../templates/templateRef');
+const { templateYieldData } = require('../templates/templateYieldData');
+const { yieldTemplateSimulationPerPhase } = require('../templates/templateSimulation');
 
 
-function calcDaysPhase(density){
-
-    let variance;
-
-    if (density <= 350) variance = 3;
-    else variance = 8;
-
-    for (let i = 0; i < yieldTemplateSimulationPerPhase.length; i++) {
-    
-        const templatePhaseDuration = templateTeoreticPerPhase[i].durationRef;
-        const simulatedPhaseDuration = yieldTemplateSimulationPerPhase[i].duration;
-        let optimalPhaseDuration = templatePhaseDuration[0] + variance;
-
-        let phaseDurationBeta = calcBetaRandom(optimalPhaseDuration, templatePhaseDuration[0], templatePhaseDuration[1]);
-
-        simulatedPhaseDuration.days = parseInt(phaseDurationBeta);
-
-    }
-}
-
-function dateDistributionPhase (startSowingDate) {
+function datesDistributionPhase(startSowingDate, density, weatherGenerated) {
 
     const [year, month, day] = startSowingDate.split('-');
     const initialDate = new Date(`${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);
     let currentDate = new Date(initialDate);
 
-    for(let i = 0; i < yieldTemplateSimulationPerPhase.length; i++) {
+    for (let i = 0; i < yieldTemplateSimulationPerPhase.length; i++) {
+
+        let idxTemplateStart;
+        let idxTemplateEnd;
+
+        for (let j = 0; j < weatherGenerated.length; j++) {
+
+            let startDateTemplate = new Date(weatherGenerated[j].startDate);
+            let endDateTemplate = new Date(weatherGenerated[j].endDate);
+
+            if (currentDate >= startDateTemplate && currentDate <= endDateTemplate) idxTemplateStart = j;
+
+        }
+
+        const startPeriodGenerated = weatherGenerated[idxTemplateStart];
+        let endPeriodGenerated = null;
+
+        let days = templateTeoreticPerPhase[i].durationRef[0];
+
+        if (density >= 450) days += 4;
+        else if (density >= 350) days += 2;        
+
+        const tempRef = templateTeoreticPerPhase[i].tempMeanRef;
+        const humidityRef = templateTeoreticPerPhase[i].humidityMeanRef;
+        const precipPercentRef = templateTeoreticPerPhase[i].precipitationMeanRef;
+
+        const theoreticalPrecipitations = templateYieldData.theoreticalData.theoreticalPrecipitations;
+        
+
+        let precipRef = [];
+
+        for (let j = 0; j < precipPercentRef.length; j++) {
+            precipRef.push((precipPercentRef[j] * theoreticalPrecipitations) / templateTeoreticPerPhase[i].durationRef[j]);
+        }
+
+
+        const optimalTempMean = tempRef.reduce((a, b) => a + b, 0) / tempRef.length;
+        const optimalHumidityMean = humidityRef.reduce((a, b) => a + b, 0) / humidityRef.length;
+        const optimalPrecipMean = (precipRef.reduce((a, b) => a + b, 0) / precipRef.length); 
+
+
+        const maxTempDev = tempRef[1] - optimalTempMean;
+        const maxHumidityDev = humidityRef[1] - optimalHumidityMean;
+        const maxPrecipDev = Math.abs(precipRef[1] - optimalPrecipMean);
+
+
+        const startDayIdx = currentDate.getDate() - 1;
+
+        let slicedTempMean = startPeriodGenerated.meanTemp.slice(startDayIdx);
+        let slicedHumidityMean = startPeriodGenerated.meanHumidity.slice(startDayIdx);
+        let slicedPrecipSum = startPeriodGenerated.precipitationSum.slice(startDayIdx);
+
+        if (days > slicedTempMean.length) {
+            endPeriodGenerated = weatherGenerated[idxTemplateStart + 1];
+            slicedTempMean = slicedTempMean.concat(endPeriodGenerated.meanTemp);
+            slicedHumidityMean = slicedHumidityMean.concat(endPeriodGenerated.meanHumidity);
+            slicedPrecipSum = slicedPrecipSum.concat(endPeriodGenerated.precipitationSum);
+
+        }
+
+
+        const meanTemp = slicedTempMean.reduce((a, b) => a + b, 0) / slicedTempMean.length;
+        const meanHumidity = slicedHumidityMean.reduce((a, b) => a + b, 0) / slicedHumidityMean.length;
+        const meanPrecipitation = slicedPrecipSum.reduce((a, b) => a + b, 0) / slicedPrecipSum.length;
+        
+
+        let tempFactor = 1 - Math.exp( -(Math.pow(Math.abs(meanTemp - optimalTempMean), 2) / (2 * maxTempDev)));
+        let humidityFactor = 1 - Math.exp( -(Math.pow(Math.abs(meanHumidity - optimalHumidityMean), 2) / (2 * maxHumidityDev)));
+        let precipFactor = 1 - Math.exp( -(Math.pow(Math.abs(meanPrecipitation - optimalPrecipMean), 2) / (2 * maxPrecipDev)));
+
+        let climaticFactor = (tempFactor + humidityFactor + precipFactor) / 3;
+
+        let newDays = Math.round(days + (days * climaticFactor));
 
         const phaseDurantion = yieldTemplateSimulationPerPhase[i].duration;
-        const phaseDays = phaseDurantion.days;
+        phaseDurantion.days = newDays;
 
         const startDate = new Date(currentDate);
         const endDate = new Date(currentDate);
 
-        endDate.setDate(currentDate.getDate() + phaseDays - 1);
+        endDate.setDate(currentDate.getDate() + newDays - 1);
 
         const formatData = (date) => `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${(date.getDate()).toString().padStart(2, '0')}`;
 
         phaseDurantion.startDate = formatData(startDate);
         phaseDurantion.endDate = formatData(endDate);
 
-        currentDate.setDate(currentDate.getDate() + phaseDays);
+        currentDate.setDate(currentDate.getDate() + newDays);
+
 
     }
 
 }
 
-function smoothValue(current, previous, weight = 0.3) {
-    return parseFloat((previous + (current - previous) * weight).toFixed(2));
-  }
-
-function simulateEnviromentData () {
-
-    const seasonTemplateData = fs.readFileSync('./controllers/simulations/templates/templateSeasons.json', 'utf-8');
-    const data = JSON.parse(seasonTemplateData);
-
-    for (let i = 0; i < data.length; i++) {
-
-        const weekJson = data[i];
-        const weeksLength = data[i].precipitationSum.length;
-        const { precipitationSum, maxTemp, minTemp, meanTemp, maxHumidity, minHumidity, meanHumidity } = weekJson;
-
-        
-        const seasonsSimulated = templateSeasonsSimulated[i];
-        let precipitationSimulated = [];
-        let meanTempSimulated = [];
-        let meanHumiditySimulated = [];
-        
-
-        for (let j = 0; j < weeksLength; j++) {
-
-            let precipitationNormalDistr = calcNormalDistribution(precipitationSum[j], seasonalStdDev[i], 0);
-            
-            let meanTempBeta = calcBetaRandom(meanTemp[j], minTemp[j], maxTemp[j]);
-            let meanTempNormal = calcNormalDistribution(meanTempBeta, seasonalStdDev[i], -5, 40);
-            
-            let meanHumidityBeta = calcBetaRandom(meanHumidity[j], minHumidity[j], maxHumidity[j]);
-            let meanHumidityNormal = calcNormalDistribution(meanHumidityBeta, seasonalStdDev[i], 0, 100);
-            
-
-            if (j === 0) {
-                
-                precipitationSimulated.push(precipitationNormalDistr);
-                meanTempSimulated.push(meanTempNormal);
-                meanHumiditySimulated.push(meanHumidityNormal);
-            } else {
-                let smoothPrecipitation = smoothValue(precipitationNormalDistr, precipitationSimulated[j-1]);
-                let smoothTempMean = smoothValue(meanTempNormal, meanTempSimulated[j-1]);
-                let smoothHumidityMean = smoothValue(meanHumidityNormal, meanHumiditySimulated[j-1]);
-
-                precipitationSimulated.push(smoothPrecipitation);
-                meanTempSimulated.push(smoothTempMean);
-                meanHumiditySimulated.push(smoothHumidityMean);
-            }
-        }
-        seasonsSimulated.precipitationSum = precipitationSimulated;
-        seasonsSimulated.meanTemp = meanTempSimulated;
-        seasonsSimulated.meanHumidity = meanHumiditySimulated;
-    }
-
-    //console.log(templateSeasonsSimulated);
-
-}
-
-async function testSimulation(duration, i){
-
-    const seasonTemplateData = fs.readFileSync('./controllers/simulations/templates/templateSeasons.json', 'utf-8');
-    const data = JSON.parse(seasonTemplateData);
+async function testSimulation(duration, i, weatherGenerated){
 
     let {days, startDate, endDate} = duration;
     let date1 = new Date(startDate);
@@ -126,80 +112,58 @@ async function testSimulation(duration, i){
     let idxTemplateStart;
     let idxTemplateEnd;
 
-    for (let j = 0; j < data.length; j++) {
+    for (let j = 0; j < weatherGenerated.length; j++) {
 
-        let startDateTemplate = new Date(data[j].startDate);
-        let endDateTemplate = new Date(data[j].endDate);
+        let startDateTemplate = new Date(weatherGenerated[j].startDate);
+        let endDateTemplate = new Date(weatherGenerated[j].endDate);
 
         if (date1 >= startDateTemplate && date1 <= endDateTemplate) idxTemplateStart = j;
         if (date2 >= startDateTemplate && date2 <= endDateTemplate) idxTemplateEnd = j;
 
     } 
 
-    let startDateTemplate = new Date(templateSeasonsSimulated[idxTemplateStart].startDate);
-    let endDateTemplate = new Date(templateSeasonsSimulated[idxTemplateEnd].endDate);
+    let startDateTemplate = new Date(weatherGenerated[idxTemplateStart].startDate);
+    let endDateTemplate = new Date(weatherGenerated[idxTemplateEnd].endDate);
 
-    let precipTot = [];
-    let tempTot = [];
-    let humidityTot = [];
-    
-    for (let j = 0; j < templateSeasonsSimulated.length; j ++){
+    let temp = [];
+    let humdity = [];
+    let precipitations = [];
 
-        let date1 = new Date(templateSeasonsSimulated[j].startDate);
-        let date2 = new Date(templateSeasonsSimulated[j].endDate);
-
-        if (date1 >= startDateTemplate && date2 <= endDateTemplate) {
-            
-            for (let x = 0; x < templateSeasonsSimulated[j].precipitationSum.length; x ++){
-                precipTot.push(templateSeasonsSimulated[j].precipitationSum[x]);
-                tempTot.push(templateSeasonsSimulated[j].meanTemp[x]);
-                humidityTot.push(templateSeasonsSimulated[j].meanHumidity[x]);
-            }    
-        }
+    for (let i = idxTemplateStart; i <= idxTemplateEnd; i++) {
+        temp = temp.concat(weatherGenerated[i].meanTemp);
+        humdity = humdity.concat(weatherGenerated[i].meanHumidity);
+        precipitations = precipitations.concat(weatherGenerated[i].precipitationSum);
     }
 
-    let newPrecipTot;
-    let newTempTot;
-    let newHumidityTot; 
 
-    
-    let idx1 = parseInt(date1.getDate() / 7);
-    
-    if (precipTot.length <= 5) {
-        let idx2 = (parseInt(date2.getDate() / 7));
+    let startDayidx = date1.getDate() - 1;
 
-        newPrecipTot = precipTot.slice(idx1, idx2+1);
-        newTempTot = tempTot.slice(idx1, idx2+1);
-        newHumidityTot = humidityTot.slice(idx1, idx2+1);
-    }
-        else {
+    temp = temp.slice(startDayidx, startDayidx + days);
+    humdity = humdity.slice(startDayidx, startDayidx + days);
+    precipitations = precipitations.slice(startDayidx, startDayidx + days);
 
-        let lengthArr = templateSeasonsSimulated[idxTemplateEnd].precipitationSum.length;
-        let idx2 = lengthArr - (parseInt(date2.getDate() / 7)) -1;
-        idx2 = precipTot.length - idx2;
+    yieldTemplateSimulationPerPhase[i].tempSimulated = temp;
+    yieldTemplateSimulationPerPhase[i].humiditySimulated = humdity;
+    yieldTemplateSimulationPerPhase[i].precipSimulated = precipitations;
 
-        newPrecipTot = precipTot.slice(idx1, idx2+1);
-        newTempTot = tempTot.slice(idx1, idx2+1);
-        newHumidityTot = humidityTot.slice(idx1, idx2+1);
 
-    }
-
-    yieldTemplateSimulationPerPhase[i].precipitationSum = parseFloat((newPrecipTot.reduce((a,b) => a+b, 0)).toFixed(2));
-    yieldTemplateSimulationPerPhase[i].tempMean = parseFloat((newTempTot.reduce((a,b) => a+b, 0) / newTempTot.length).toFixed(2));
-    yieldTemplateSimulationPerPhase[i].humidityMean = parseFloat((newHumidityTot.reduce((a,b) => a+b, 0) / newHumidityTot.length).toFixed(2));
+    yieldTemplateSimulationPerPhase[i].precipitationSum = parseFloat((precipitations.reduce((a,b) => a+b, 0)));
+    yieldTemplateSimulationPerPhase[i].tempMean = parseFloat((temp.reduce((a,b) => a+b, 0) / temp.length).toFixed(2));
+    yieldTemplateSimulationPerPhase[i].humidityMean = parseFloat((humdity.reduce((a,b) => a+b, 0) / humdity.length).toFixed(2));
 
 }
 
 
-async function processPhase(sowingDate, density) {
+async function processPhase(sowingDate, density, weatherGenerated) {
 
-    calcDaysPhase(density);
-    dateDistributionPhase(sowingDate);
-    simulateEnviromentData();
+    datesDistributionPhase(sowingDate, density, weatherGenerated);
+    
 
     for (let i = 0; i < yieldTemplateSimulationPerPhase.length; i++){
-        await testSimulation(yieldTemplateSimulationPerPhase[i].duration, i);   
+        await testSimulation(yieldTemplateSimulationPerPhase[i].duration, i, weatherGenerated);   
     }
+
+    return weatherGenerated;
 
 }
 

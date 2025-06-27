@@ -7,8 +7,8 @@ import DashBoard from "./components/DashBoard";
 import Report from "./components/Report";
 
 
-import { Chart as ChartJS, BarElement, RadialLinearScale, ArcElement, CategoryScale, LinearScale, Tooltip, Legend, Title, SubTitle } from 'chart.js';
-ChartJS.register(BarElement, RadialLinearScale, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
+import { Chart as ChartJS, BarElement, RadialLinearScale, ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Title, SubTitle } from 'chart.js';
+ChartJS.register(BarElement, RadialLinearScale, ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 function App() {
 
