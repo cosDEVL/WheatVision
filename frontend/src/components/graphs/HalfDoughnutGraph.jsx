@@ -8,18 +8,20 @@ function HalfDoughnutGraph({ theoricalData, simulatedData }) {
         datasets: []
     })
 
+    console.log(simulatedData)
+
     useEffect(() => {
         setGraphPrecipData({
             labels: [
-              "Precipitazioni Richieste",
-              "Precipitazioni Simulate"
+              "Precipitazioni Totali Richieste",
+              "Precipitazioni Totali Simulate"
             ],
             datasets: [
               {
                 label: "mm",
                 data: [
-                  theoricalData.theoreticalPrecipitations,
-                  simulatedData.simulatedPrecipitations
+                  theoricalData.CalculatedPrecipitations,
+                  simulatedData.SimulatedPrecipitations
                 ],
                 backgroundColor: [
                   'rgba(255, 99, 132, 1)',
@@ -29,34 +31,44 @@ function HalfDoughnutGraph({ theoricalData, simulatedData }) {
               }
             ]
           })
-    }, [theoricalData, simulatedData])
+    }, [theoricalData.CalculatedPrecipitations, simulatedData.SimulatedPrecipitations])
     
 
   return (
-    <div className='round-graph'>
+    <div className="general-info-canvas">
+      <h4>Confronto Precipitazioni teoriche/simulate</h4>
         {graphPrecipData.datasets.length > 0 && (
+          <div className='round-graph canvas'>
             <Doughnut 
-            data = {graphPrecipData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'top',
+              data = {graphPrecipData}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  }
+                },
+                rotation: 270,   // Gira di 180° per ottenere l'effetto "mezzo cerchio"
+                circumference: 180, // Solo metà del cerchio
+                clip: {
+                  top: false,
+                  right: 10,
+                  bottom: false,
+                  left: 10
+
+                },
+                elements: {
+                  arc: {
+                    hoverOffset: 100
+                  }
+                },
+                maintainAspectRatio: false,
+                animation: {
+                  duration: 0
                 }
-              },
-              rotation: 270,   // Gira di 180° per ottenere l'effetto "mezzo cerchio"
-              circumference: 180, // Solo metà del cerchio
-              elements: {
-                arc: {
-                  hoverOffset: 100
-                }
-              },
-              maintainAspectRatio: false,
-              animation: {
-                duration: 0
-              }
-            }}
-          />
+              }}
+            />
+          </div>
         )}
     </div>
   )

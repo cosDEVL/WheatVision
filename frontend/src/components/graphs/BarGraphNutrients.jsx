@@ -21,18 +21,18 @@ function BarGraphNutrients({ theoricalData, simulatedData }) {
               {
                 label: 'Valore Teorico',
                 data: [
-                  theoricalData.theoreticalNitrogen,
-                  theoricalData.theoreticalPhosphorus,
-                  theoricalData.theoreticalPotassium,
+                  theoricalData.CalculatedNutrients.Nitrogen,
+                  theoricalData.CalculatedNutrients.Phosphorus,
+                  theoricalData.CalculatedNutrients.Potassium,
                 ],
                 backgroundColor: '#8884d8'
               },
               {
                 label: 'Valore Simulato',
                 data: [
-                  simulatedData.simulatedNitrogen,
-                  simulatedData.simulatedPhosphorus,
-                  simulatedData.simulatedPotassium,
+                  simulatedData.SimulatedNutrients.Nitrogen,
+                  simulatedData.SimulatedNutrients.Phosphorus,
+                  simulatedData.SimulatedNutrients.Potassium,
                 ],
                 backgroundColor: '#82ca9d'
               }
@@ -42,20 +42,23 @@ function BarGraphNutrients({ theoricalData, simulatedData }) {
     
 
   return (
-    <div className='bar-graph'>
+    <div className='general-info-canvas'>
+      <h4>Confronto Nutrienti teorici/simulati</h4>
         {graphNutrientsData.datasets.length > 0 && (
-            <Bar 
-            data={graphNutrientsData} 
-            options={{ 
-              responsive: true, 
-              plugins: { 
-                legend: { position: 'top' } 
-              },
-              maintainAspectRatio: false,
-              animation: {
-                duration: 0
-              }
-            }} />
+           <div className="bar-graph canvas">
+             <Bar 
+              data={graphNutrientsData} 
+              options={{ 
+                responsive: true, 
+                plugins: { 
+                  legend: { position: 'top' } 
+                },
+                maintainAspectRatio: false,
+                animation: {
+                  duration: 0
+                }
+              }} />
+           </div>
         )}
     </div>
     )

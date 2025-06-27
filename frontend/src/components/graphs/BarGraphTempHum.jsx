@@ -22,11 +22,11 @@ function BarGraphTempHum({ simulatedData }) {
 ];
 
   useEffect(() => {
-    simulatedData.simulation.forEach((phase) => {
+    simulatedData.PhaseInfo.forEach((phase) => {
       dateRanges.push(`Data inizio: ${phase.duration.startDate}\nData fine: ${phase.duration.endDate}`);
     })
   
-    simulatedData.simulation.forEach((phase) => {
+    simulatedData.PhaseInfo.forEach((phase) => {
       tempPerPhase.push(phase.tempMean);
       humidityPerPhase.push(phase.humidityMean)
     })

@@ -6,7 +6,12 @@ import HalfDoughnutGraph from './graphs/HalfDoughnutGraph';
 import PolarAreaGraph from './graphs/PolarAreaGraph';
 import FullDoughnutGraph from './graphs/FullDoughnutGraph';
 import BarGraphTempHum from './graphs/BarGraphTempHum';
-import DataSowingFinance from './graphs/DataSowingFinance';
+import MainCardTempHumPrecip from './MainCardTempHumPrecip';
+import FormListMenu from './FormListMenu';
+import YieldData from './graphs/YieldData';
+import WeatherGeneratedDetails from './graphs/WeatherGeneratedDetails';
+
+import GeneralData from './graphs/GeneralData';
 
 import Navbar from './Navbar';
 
@@ -32,10 +37,11 @@ function DashBoard() {
 
   const [formDataSelected, setFormDataSelected] = useState(null);
   const [simSelected, setSimSelected] = useState(null);
-  const [sowingData, setSowingData] = useState(null);
-  const [theoricalData, setTheoricalData] = useState(null);
+  const [weatherGenerated, setWeatherGenerated] = useState(null);
+  const [generalData, setGeneralData] = useState(null);
+  const [calculatedData, setCalculatedData] = useState(null);
   const [simulatedData, setSimulatedData] = useState(null);
-  const [financeData, setFinanceData] = useState(null);
+  const [financialData, setFinancialData] = useState(null);
 
 
   function fetchFromData() {
@@ -53,6 +59,31 @@ function DashBoard() {
     fetchFromData();
   }, []);
 
+  useEffect(() => {
+    if ((formDataSelected === null) || (simSelected !== formDataSelected.nomeSimulazione) ) {
+      setLoadingData(true);
+      setOpenFormList(false);
+      
+      axios.get(`${apiUrl}/api/report/simulationID/${simSelected}`)
+      .then((res) => {
+        const simData = res.data;
+        setFormDataSelected(simData.formInfo);
+        setGeneralData(simData.simulationData.GeneralData);
+        setCalculatedData(simData.simulationData.CalculatedData);
+        setSimulatedData(simData.simulationData.SimulatedData);
+        setWeatherGenerated(simData.simulationData.SimulatedData.MeteoGenerated)
+        setFinancialData(simData.simulationData.FinancialData);
+        setLoadingData(false);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoadingData(false);
+      });
+
+    }
+  }, [simSelected]);
+
   function handleDeleteReport(nomeSimulazione, e) {
     e.stopPropagation(); // <-- blocca il click sul div
 
@@ -61,44 +92,17 @@ function DashBoard() {
       .then(() => {
 
           setFormDataSelected(null);
-          setSowingData(null);
-          setTheoricalData(null);
+          setWeatherGenerated(null);
+          setGeneralData(null);
+          setCalculatedData(null);
           setSimulatedData(null);
-          setFinanceData(null);
+          setFinancialData(null);
 
         setFormData(prevData => prevData.filter(form => form.nomeSimulazione !== nomeSimulazione));
       })
       .catch((err) => console.log(err));
     }
   }
-
-  function handleDataRequest(nomeSimulazione) {   
-    if ((formDataSelected === null) || (nomeSimulazione !== formDataSelected.nomeSimulazione) ) {
-      setLoadingData(true);
-      setOpenFormList(false);
-
-      axios.get(`${apiUrl}/api/report/simulationID/${nomeSimulazione}`)
-      .then((res) => {
-        const simData = res.data;
-        setFormDataSelected(simData.formInfo);
-        setSowingData(simData.sowingInfo);
-        setTheoricalData(simData.theoreticalSowingData);
-        setSimulatedData(simData.simulatedSowingData);
-        setFinanceData(simData.financeData);
-        setSimSelected(simData.formInfo._id);
-        setLoadingData(false);
-
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoadingData(false);
-      });
-
-    }
-    
-  }
-
-
 
   return (
     <>
@@ -133,9 +137,9 @@ function DashBoard() {
                         }}>Nuova Simulazione</button>
                       {formData.map((form) => {
                         return (
-                          <div key={form._id} id={form.nomeSimulazione} className={simSelected === form._id ? "card selected-card" : "card"} onClick={() => {
+                          <div key={form._id} id={form.nomeSimulazione} className={simSelected === form.nomeSimulazione ? "card selected-card" : "card"} onClick={() => {
                                 if(openForm === false) {
-                                  handleDataRequest(form.nomeSimulazione);
+                                  setSimSelected(form.nomeSimulazione);
                                 }
                               }}>
                             <section>
@@ -196,55 +200,24 @@ function DashBoard() {
                         ) : (
                         <div className='dashboard-result'>
                           
-                          {theoricalData && simulatedData && sowingData && financeData && (
+                          {calculatedData && simulatedData && generalData && financialData && (
                             <>
+
+                              <div className="general-info">
+                                <GeneralData formData={formDataSelected} generalData={generalData} financialData={financialData} simulatedData={simulatedData}></GeneralData>
+                                <div>
+                                  <FormListMenu simSelected={simSelected} setSimSelected={setSimSelected} formDataSelected={formDataSelected} formData={formData} handleDeleteReport={handleDeleteReport} />
+                                  <YieldData calculatedData={calculatedData} simulatedData={simulatedData} /> 
+                                </div>
                               
-                              <div className='general-info'>
-                                <DataSowingFinance formDataSelected={formDataSelected} sowingData={sowingData} financeData={financeData} />
                               </div>
 
-                              <div className="graphs">
+                              <div className="phenological-section">
+                                <MainCardTempHumPrecip phaseInfo={simulatedData.PhaseInfo} theoricalData={calculatedData} simulatedData={simulatedData} />
+                              </div>
 
-                                
-                                <div className="doughnut-polar-graphs">
-
-                                  <div className='duration-doughnut graph'>
-                                    <h3>Durata di ogni fase</h3>
-                                    <FullDoughnutGraph simulatedData={simulatedData} />
-                                  </div>
-
-                                  <div className='precip-doughnut graph'>
-                                    <h3>Info Precipitazioni</h3>
-                                    <HalfDoughnutGraph theoricalData={theoricalData} simulatedData={simulatedData} /> 
-                                  </div>
-
-                                  <div className='precip-reg-doughnut graph'>
-                                    <h3>Precipitazioni registrate per fasi</h3>
-                                    <PolarAreaGraph simulatedData={simulatedData} />
-                                  </div>
-
-                                </div>
-
-                                <div className="bar-graphs">
-
-                                <div className='temp-hum-bar graph'>
-                                    <h3>Temperatura e umidità medie registrate per fase</h3>
-                                    <BarGraphTempHum simulatedData={simulatedData} />
-                                  </div>
-                                  <div className='index-bar graph'>
-                                    <h3>Indici di semina</h3>
-                                    <BarGraphIndex theoricalData={theoricalData} simulatedData={simulatedData} />
-                                  </div>
-
-                                  <div className='nutrients-bar graph'>
-                                    <h3>Info N-P-K</h3>
-                                    <BarGraphNutrients theoricalData={theoricalData} simulatedData={simulatedData} />
-                                  </div>
-
-                                  
-                                  
-                                </div>
-  
+                              <div className="weather-section">
+                                <WeatherGeneratedDetails weatherGenerated={weatherGenerated} />
                               </div>
 
                             </>

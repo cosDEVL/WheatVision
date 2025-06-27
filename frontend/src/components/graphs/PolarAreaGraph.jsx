@@ -24,13 +24,13 @@ function PolarAreaGraph({ simulatedData }) {
           "Maturazione"
       ];
         
-        simulatedData.simulation.forEach((phase) => {
+        simulatedData.PhaseInfo.forEach((phase) => {
             dateRanges.push(`Data inizio: ${phase.duration.startDate}\nData fine: ${phase.duration.endDate}`);
         })
 
         setDates(dateRanges);
 
-        simulatedData.simulation.forEach((phase) => {
+        simulatedData.PhaseInfo.forEach((phase) => {
             precipPerPhase.push(phase.precipitationSum);
         })
     

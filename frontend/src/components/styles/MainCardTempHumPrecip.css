@@ -1,0 +1,73 @@
+.phase-card{
+    background-color: var(--background-50);
+
+    width: 1600px;
+    height: 700px;
+
+    margin: 1rem auto;
+    padding: 0.35rem;
+
+    border-radius: 10px;
+    box-shadow: var(--accent-400) 5px 5px 5px 2px;
+
+}
+
+.phase-card h4{
+    background-color: var(--accent-800);
+    color: var(--text-50);
+
+    margin: 0;
+    padding: 1rem;
+    text-align: center;
+
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.main{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 3rem 0;
+}
+
+.main .primary-data{
+    display: flex;
+}
+
+.main .primary-data .side-phase-list{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+
+    position: sticky;
+    top: 10rem;
+    margin: 5rem 0;
+}
+
+.main .primary-data .side-phase-list button{
+    width: 15rem;
+    height: 3rem;
+    margin: 0.5rem 1rem;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.main .primary-data .phase-graph{
+    height: 550px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1rem;
+
+}
+
+.main .secondary-data .mean-values{
+    height: fit-content;
+
+    position: sticky;
+    top: 10rem;
+    margin: 5rem 0;
+    
+}

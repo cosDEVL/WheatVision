@@ -1,0 +1,93 @@
+.yield-data{
+    background-color: var(--background-50);
+    margin-top: 2rem;
+    margin-left: 1rem;
+    padding: 0.35rem;
+
+    width: 1250px;
+    height: fit-content;
+
+    border-radius: 10px;
+    box-shadow: var(--accent-400) 5px 5px 5px 2px;
+}
+
+.yield-data h4{
+    margin: 0;
+    margin-bottom: 0.15rem;
+
+    background-color: var(--accent-800);
+    color: var(--text-50);
+    padding: 1rem;
+
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.yield-data .yield-comparison{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--background-50);
+
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}   
+
+.yield-data .yield-comparison .data{
+    width: 50%;
+    padding: 0rem 1rem;
+}
+
+.yield-data .yield-comparison .data:first-of-type{
+    border-right: 1px solid var(--accent-800);
+}
+
+
+
+.yield-data .yield-comparison .data .div-title{
+    display: block;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05rem;
+
+    border-bottom: var(--accent-800) 1px solid;
+}
+
+.yield-data .yield-comparison .data div{
+    margin-bottom: 0.5rem;
+    background-color: var(--accent-200);
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    height: 5rem;
+}
+
+.yield-data .yield-comparison .data div.precipitations,
+.yield-data .yield-comparison .calculated-data div.yield{
+    flex-direction: column;
+}
+
+.yield-data .yield-comparison .data div section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 33.3%;
+    text-align: center;
+    padding: 0 0.5rem;
+}
+
+.yield-data .yield-comparison .data div .border{
+    position: relative;
+    border: 1px var(--accent-500) solid;
+    margin: 0;
+    height: 100%;
+}
+
+.yield-data .yield-comparison .data div span.section-title{
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}

@@ -125,28 +125,31 @@ async function testSimulation(duration, i, weatherGenerated){
     let startDateTemplate = new Date(weatherGenerated[idxTemplateStart].startDate);
     let endDateTemplate = new Date(weatherGenerated[idxTemplateEnd].endDate);
 
-    let tempMean = [];
-    let humidityMean = [];
+    let temp = [];
+    let humdity = [];
     let precipitations = [];
 
     for (let i = idxTemplateStart; i <= idxTemplateEnd; i++) {
-        tempMean = tempMean.concat(weatherGenerated[i].meanTemp);
-        humidityMean = humidityMean.concat(weatherGenerated[i].meanHumidity);
+        temp = temp.concat(weatherGenerated[i].meanTemp);
+        humdity = humdity.concat(weatherGenerated[i].meanHumidity);
         precipitations = precipitations.concat(weatherGenerated[i].precipitationSum);
     }
 
 
     let startDayidx = date1.getDate() - 1;
 
-    tempMean = tempMean.slice(startDayidx, startDayidx + days);
-    humidityMean = humidityMean.slice(startDayidx, startDayidx + days);
+    temp = temp.slice(startDayidx, startDayidx + days);
+    humdity = humdity.slice(startDayidx, startDayidx + days);
     precipitations = precipitations.slice(startDayidx, startDayidx + days);
 
-    
+    yieldTemplateSimulationPerPhase[i].tempSimulated = temp;
+    yieldTemplateSimulationPerPhase[i].humiditySimulated = humdity;
+    yieldTemplateSimulationPerPhase[i].precipSimulated = precipitations;
+
 
     yieldTemplateSimulationPerPhase[i].precipitationSum = parseFloat((precipitations.reduce((a,b) => a+b, 0)));
-    yieldTemplateSimulationPerPhase[i].tempMean = parseFloat((tempMean.reduce((a,b) => a+b, 0) / tempMean.length).toFixed(2));
-    yieldTemplateSimulationPerPhase[i].humidityMean = parseFloat((humidityMean.reduce((a,b) => a+b, 0) / humidityMean.length).toFixed(2));
+    yieldTemplateSimulationPerPhase[i].tempMean = parseFloat((temp.reduce((a,b) => a+b, 0) / temp.length).toFixed(2));
+    yieldTemplateSimulationPerPhase[i].humidityMean = parseFloat((humdity.reduce((a,b) => a+b, 0) / humdity.length).toFixed(2));
 
 }
 

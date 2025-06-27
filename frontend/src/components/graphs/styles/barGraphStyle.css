@@ -1,34 +1,28 @@
-canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
+.general-info-canvas{
+    background-color: var(--background-50);
 
-.bar-graph{
-    width: 40.75rem;
+    width: 600px;
+    height: 400px;
+
+    padding: 0.35rem;
+    border-radius: 10px;
+    box-shadow: var(--accent-400) 5px 5px 5px 2px;
+
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.general-info-canvas h4{
+    margin: 0;
     padding: 1rem;
+    text-align: center;
+
+    background-color: var(--accent-800);
+    color: var(--text-50);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
-@media screen and (max-width: 1080px) {
-    .bar-graph{
-        width: 37rem;
-    }
+.general-info-canvas .canvas{
+    margin: 1rem auto;
 }
-
-@media screen and (max-width: 660px) {
-    .bar-graph{
-        width: 32rem;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    .bar-graph{
-        width: 29rem;
-    }
-}
-
-@media screen and (max-width: 510px) {
-    .bar-graph{
-        width: 22rem;
-    }
-}
-
