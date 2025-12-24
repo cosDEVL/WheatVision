@@ -1,0 +1,49 @@
+@import '../variables.css';
+
+.card{
+    background-color: var(--neutral-700);
+    color: var(--primary-50);
+    margin: 0.5rem 1rem;
+    padding: 1rem;
+    min-width: 20rem;
+    max-width: 20rem;
+    max-height: fit-content;
+    cursor: pointer;
+}
+
+.cardSelected{
+    order: -1;
+    background-color: var(--neutral-900);
+    color: var(--primary-50);
+    cursor: not-allowed;
+}
+
+.card .cardSection{
+    display: flex;
+    justify-content: space-between;
+
+    border-bottom: 0.1rem solid var(--neutral-100);
+    margin-bottom: 0.5rem
+}
+
+
+
+.card .cardSection span:first-of-type{
+    font-weight: 600;
+}
+
+.card button{
+    width: max-content;
+    font-size: 1rem;
+    display: block;
+    border: none;
+    margin: 0 auto;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    background-color: var(--danger-500);
+    color: var(--primary-50);
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}

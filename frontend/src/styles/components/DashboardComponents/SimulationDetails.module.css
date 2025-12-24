@@ -1,0 +1,90 @@
+.detailsPage{
+    margin-top: 1rem;
+}
+
+.detailsSection{
+    display: flex;
+    flex-direction: column;
+}
+
+.generalInfo .cardSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    height: fit-content;
+}
+
+.detailsSection .sectionTitle{
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid var(--neutral-800);
+}
+
+.noSimSelected{
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.noSimSelected span{
+    display: block;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+@media screen and (max-width: 1050px) {
+    .generalInfo .cardSection{
+        flex-direction: column;
+    }
+}
+
+.comparisonData .cardSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.comparisonData .cardSection .yieldComponents{
+    height: 51.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 1775px) {
+    .comparisonData .cardSection{
+        flex-direction: column;
+    }
+
+    .comparisonData .cardSection .duration{
+        margin-bottom: 1rem
+    }
+
+    .comparisonData .cardSection .yieldComponents{
+        height: max-content;
+    }
+    
+}
+
+.phaseView {
+    margin-bottom: 3rem;
+}
+
+.phaseView .section{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 3rem;
+    border-bottom: 1px solid var(--neutral-800);
+    margin-bottom: 2rem;
+}
+
+.phaseView .section .sectionTitle{
+    border: none;
+    margin-right: 1rem;
+}

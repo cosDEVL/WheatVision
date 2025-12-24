@@ -1,0 +1,45 @@
+table{
+    width: 70dvw;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+}
+
+th{
+    background-color: var(--neutral-800);
+    color: var(--primary-50);
+    height: 4rem;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.sectionTable{
+    background-color: var(--neutral-600);
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--primary-50);
+    height: 3rem;
+}
+
+.sectionHeader{
+    height: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.sectionContent{
+    height: 2.5rem;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.sectionHeader td:nth-last-of-type(even), 
+.sectionContent td:nth-last-of-type(even){
+    background-color: var(--neutral-400);
+}
+
+.sectionHeader td:nth-last-of-type(odd), 
+.sectionContent td:nth-last-of-type(odd){
+    background-color: var(--neutral-200);
+}
+
+

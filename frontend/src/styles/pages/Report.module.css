@@ -1,0 +1,32 @@
+.reportPage{
+    position: relative;
+    top: 5rem;
+    left: 0;
+    width: 100%;
+}
+
+.reportPage .header{
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+    text-align: center;
+}
+.reportPage .header button{
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-50);
+    padding: 0.5rem;
+    border: none;
+    border-radius: var(--border-radius-md);
+    background-color: var(--danger-500);
+    cursor: pointer;
+}
+
+.reportPage .header .reportIntro{
+    font-size: 1.25rem;
+}
+
+.reportPage .table{
+    width: 99dvw;
+    overflow: scroll;
+}

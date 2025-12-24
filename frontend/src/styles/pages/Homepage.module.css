@@ -1,0 +1,70 @@
+@import '../variables.css';
+
+.homepage{
+    background-image: url('../../assets/backgroundHomePage.jpg');
+    display: block;
+    width: 100dvw;
+    height: 100dvh;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.overlay{
+    background-image: linear-gradient(360deg, #0f172a, #0f172a00);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hpMenu{
+    background-color: #33415586;
+    width: 30vw;
+    min-width: 20rem;
+    display: block;
+    margin: 20rem auto;
+
+    border-radius: var(--border-radius-md);
+    
+    h1{
+        text-align: center;
+        margin-top: 2rem;
+        color: var(--primary-50);
+    }
+}
+
+.hpLinks{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    *{
+        margin: 1rem 2rem;
+    }
+}
+
+.hpLinks button{
+    background-color: var(--neutral-400);
+    color: var(--neutral-700);
+    width: fit-content;
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: var(--border-radius-md);
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    transition: all ease-in-out 0.15s;
+}
+
+.hpLinks button:hover{
+    background-color: var(--neutral-200);
+    color: var(--neutral-900);
+}

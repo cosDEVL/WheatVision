@@ -1,0 +1,146 @@
+.yieldFinanceCard{
+    width: 50rem;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+}
+
+.yieldFinanceCard .box{
+    border: 1px solid var(--neutral-900);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow-lg);
+
+}
+
+.yieldFinanceCard .yieldData{
+    height: 45%;
+}
+
+.yieldFinanceCard .financialData{
+    height: 53%;
+}
+
+.yieldFinanceCard .box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.yieldFinanceCard div .dataTitle{
+    font-size: 1.5rem;
+    margin: 1rem 1rem 0;
+}
+
+.yieldFinanceCard .box div .dataResults{
+    font-size: 1.15rem;
+    margin-left: 2rem;
+}
+
+.dataResults .dataSection{
+    display: flex;
+    flex-direction: column;
+}
+
+.yieldFinanceCard .box div .dataResults .dataSection .subTitle{
+    font-size: 1.15rem;
+    font-weight: 500;
+}
+
+.yieldFinanceCard .box div .dataResults .dataSection .dataValue{
+    margin-left: 1rem;
+    font-size: 1.8rem;
+}
+
+.yieldFinanceCard .box .partOne{
+    width: 40%;
+}
+
+.yieldFinanceCard .box .partTwo{
+    position: relative;
+    width: 55%;
+}
+
+.yieldFinanceCard .box .partTwo::before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 1.25rem;
+    left: -1rem;
+    width: 1px;
+    height: 11rem;
+
+    border-left: 1px solid var(--neutral-800);
+
+}
+
+.yieldFinanceCard .financialData .partTwo::before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 1rem;
+    left: -1rem;
+    width: 1px;
+    height: 14rem;
+
+    border-left: 1px solid var(--neutral-800);
+
+}
+
+@media screen and (max-width: 700px) {
+    .yieldFinanceCard{
+        
+        align-items: center;
+        height: fit-content;
+    }
+    
+    .yieldFinanceCard .box{
+        height: fit-content;
+        width: 25rem;
+        margin-bottom: 1rem
+    }
+    .yieldFinanceCard .box .partOne,
+    .yieldFinanceCard .box .partTwo{
+        width: 100%;
+    }
+
+    .yieldFinanceCard .box{
+        flex-direction: column;
+    }
+
+    .yieldFinanceCard div .dataTitle{
+        margin-left: 3rem;
+    }
+
+    .yieldFinanceCard .box div .dataResults{
+        margin-left: 4rem;
+    }
+
+    .yieldFinanceCard .box div .dataResults .dataSection .subTitle{
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+.yieldFinanceCard .box div .dataResults .dataSection .dataValue{
+        margin-left: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .yieldFinanceCard .box .partTwo::before,
+    .yieldFinanceCard .financialData .partTwo::before{
+        display: none;
+    }
+
+    .yieldFinanceCard .box .partTwo::before{
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0.5rem;
+        left: 2.4rem;
+        width: 20rem;
+        height: 1px;
+
+        border-top: 1px solid var(--neutral-800);
+
+    }
+}

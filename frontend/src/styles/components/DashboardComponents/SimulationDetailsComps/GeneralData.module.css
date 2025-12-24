@@ -1,0 +1,60 @@
+@import '../../../variables.css';
+
+.generalDataCard{
+    width: 20rem;
+    height: 30rem;
+    border: 1px solid var(--neutral-900);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow-lg);
+    margin-right: 2rem;
+}
+
+.generalDataCard .cardTitle{
+    text-align: center;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    margin: 1rem;
+    border-bottom: 1px solid var(--neutral-900);
+}
+
+.generalDataCard .info{
+    margin: 0 1rem 1rem;
+}
+
+.infoField{
+    margin: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--neutral-900);
+}
+
+.infoField div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+.infoField div .sectionTitle{
+    margin-right: 0.25rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+
+}
+
+.infoField .sectionValue{
+
+    display: block;
+    width: 100%;
+    font-size: 1.15rem;
+
+    text-align: center;
+}
+
+@media screen and (max-width: 1050px) {
+    .generalDataCard{
+        margin-right: 0;
+        margin-bottom: 2rem;
+    }
+}

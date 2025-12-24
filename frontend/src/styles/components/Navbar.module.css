@@ -1,0 +1,96 @@
+@import '../variables.css';
+
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 4rem;
+    background-color: var(--neutral-700);
+    color: var(--primary-50);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    max-height: 4rem;
+    transition: all ease-in-out 0.15s;
+}
+
+.logo:hover{
+    cursor: pointer;
+    background-color: var(--primary-50);
+    color: var(--neutral-700);
+    padding: 0 1rem;
+    
+    p{
+        letter-spacing: 0.025rem;
+    }
+}
+
+.logo img{
+    width: 3rem;
+    margin-right: 1rem;
+}
+
+.logo p{
+    font-size: 2rem;
+
+}
+
+.navLinks{
+    display: flex;
+    list-style: none;
+    margin-left: 3rem;
+}
+
+.navLinks li{
+    margin-left: 2rem;
+}
+
+.navLinks li button{
+    background-color: var(--neutral-400);
+    color: var(--neutral-700);
+    width: fit-content;
+    height: 2rem;
+    padding: 0 1.5rem;
+    border-radius: var(--border-radius-md);
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+
+    transition: all ease-in-out 0.15s;
+}
+
+.navLinks li button:hover{
+    background-color: var(--neutral-200);
+    color: var(--neutral-900);
+}
+
+@media screen and (max-width: 768px) {
+
+    .logo img{
+        margin-right: 0rem;
+    }
+
+    .logo p{
+        display: none;
+    }
+
+    .navLinks{
+        margin-left: 0.5rem;
+    }
+
+    .navLinks li{
+    margin-left: 1rem;
+}
+
+}

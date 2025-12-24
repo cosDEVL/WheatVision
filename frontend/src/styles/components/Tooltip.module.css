@@ -1,0 +1,27 @@
+ .tooltipContainer{
+    position: relative !important;
+    display: block !important;
+    cursor: default;
+}
+
+.tooltipContainer .tooltip{
+    position: absolute !important;
+    z-index: 100000 !important;
+    bottom: 2rem !important;
+    left: -15rem !important;
+    background-color: var(--neutral-700) !important;
+    color: var(--neutral-50) !important;
+
+    width: 20rem !important;
+    height: fit-content !important;
+
+    padding: 1rem !important;
+    font-size: 1.25rem !important;
+    font-family: var(--font-primary) !important;
+
+    border: 1px solid var(--neutral-900) !important;
+}
+
+.tooltipContainer .tooltipKey{
+    cursor: pointer !important;
+}

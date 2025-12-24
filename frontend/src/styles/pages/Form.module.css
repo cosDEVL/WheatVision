@@ -1,0 +1,97 @@
+@import '../variables.css';
+
+.bgShadow{
+    position: fixed;
+    top: 4rem;
+    z-index: 1000;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: #0f172a5a;
+}
+
+.formWindow{
+    background-color: var(--neutral-50);
+    width: 50dvw;
+    min-width: 25rem;
+    height: 88dvh;
+    display: block;
+    margin: 1rem auto;
+}
+
+.formWindow .header{
+    width: 100%;
+    background-color: var(--neutral-700);
+    padding: 1rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.formWindow .header h4{
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-50);
+    
+}
+
+.formWindow .header button{
+    font-size: 1.25rem;
+    font-weight: 600;
+    background-color: var(--danger-500);
+    color: var(--primary-50);
+    border: none;
+    border-radius: 0.25rem;
+
+    padding: 0.5rem;
+
+    cursor: pointer;
+}
+
+.formWindow form{
+    height: 89%;
+    margin-top: 0.2rem;
+}
+
+.formWindow form .moduleSection{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.formWindow form .moduleSection .formSection{
+    width: 25rem;
+}
+
+.formWindow form .moduleSection .formSection .sectionTitle{
+    display: block;
+    text-align: center;
+    border-bottom: solid 0.1rem var(--neutral-700);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.formWindow form button{
+    display: block;
+    margin: 0 auto;
+    font-size: 1.25rem;
+    font-weight: 600;
+    background-color: var(--primary-500);
+    color: var(--primary-50);
+    border: none;
+    border-radius: 0.25rem;
+
+    padding: 0.5rem;
+
+    cursor: pointer;
+}
+
+@media screen and (max-width:900px) {
+    .formWindow form .moduleSection .formSection{
+        width: 17rem;
+    }
+}
+

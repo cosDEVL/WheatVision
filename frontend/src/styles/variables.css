@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+:root{ 
+ /* Palette Colori */
+  --primary-50: #f0f7ff;
+  --primary-100: #e0effe;
+  --primary-500: #3b82f6;
+  --primary-700: #1d4ed8;
+
+  --secondary-50: #fefce8;
+  --secondary-300: #fde047;
+  --secondary-500: #eab308;
+
+  --neutral-50: #f8fafc;
+  --neutral-100: #f1f5f9;
+  --neutral-200: #e2e8f0;
+  --neutral-300: #cbd5e4;
+  --neutral-400: #94a3b8;
+  --neutral-600: #45556b;
+  --neutral-700: #334155;
+  --neutral-800: #1e293b;
+  --neutral-900: #0f172a;
+
+  --success-500: #22c55e;
+  --danger-500: #ef4444;
+  --danger-700: #b91c1c;
+
+  /* Tipografia */
+  --font-primary: 'Outfit', sans-serif;
+  --font-secondary: 'Kumbh Sans', sans-serif;
+
+  /* Layout */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+  --box-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --box-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+  --box-shadow-lg: 8px 10px 15px -3px rgba(0, 0, 0, 0.5), 3px 4px 6px -4px rgba(0, 0, 0, 0.5);
+
+}

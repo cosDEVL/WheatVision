@@ -1,0 +1,60 @@
+@import '../variables.css';
+
+.mainPage{
+    position: relative;
+    top: 4.5rem;
+    width: 99dvw;
+    overflow-x: hidden;
+}
+
+
+.btns{
+    width: 100%;
+    max-width: 30rem;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.btn{
+    background-color: var(--neutral-400);
+    width: fit-content;
+
+    padding: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+
+    font-size: 1.25rem;
+    color: var(--neutral-700);
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.newSimBtn{
+    background-color: var(--primary-500);
+    color: var(--primary-50);
+}
+
+@media screen and (max-width:600px) {
+    .btns{
+        flex-direction: column;
+        align-items: center;
+        height: 8rem;
+    }
+}
+
+.mainPage .noSimDetected{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    margin: 0 auto;
+    
+}
+
+.mainPage .noSimDetected span, .mainPage .noSimDetected button{
+    font-size: 1.5rem;
+    text-align: center;
+}

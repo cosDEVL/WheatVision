@@ -1,0 +1,84 @@
+.graphCard{
+    border: 1px solid var(--neutral-900);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow-lg);
+    margin-left: 2rem;
+
+}
+
+.graphCard .cardTitle{
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid var(--neutral-900);
+    width: 90%;
+
+}
+
+.graphCard .collection{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1775px) {
+    .graphCard{
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
+
+    .graphCard .collection{
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+    }
+}
+
+.graphCard .collection .sectionGraph{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+.sectionGraph .title{
+    display: flex;
+    align-items: center;
+}
+
+.sectionGraph .sectionTitle{
+    font-size: 1.25rem;
+    margin-right: 0.3rem;
+}
+
+.sectionGraph .detailedInfo{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem;
+    margin-top: 0;
+    margin-left: 3rem
+}
+
+.sectionGraph .detailedInfo section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+.sectionGraph .detailedInfo .label{
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.sectionGraph .detailedInfo .value{
+    font-size: 1.15rem;
+}
