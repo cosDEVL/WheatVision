@@ -21,7 +21,7 @@ import Error from '../components/Error';
 
 function Form({ onSubmitSuccess, newSimSelected, onCloseForm, onError }) {
   
-  const apiUrl = `http://${window.location.hostname}:8000`;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   //stato form
   const [formInput, setFormInput] = useState(initialFormState);

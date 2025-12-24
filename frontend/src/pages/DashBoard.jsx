@@ -13,7 +13,7 @@ import styles from "../styles/pages/Dashboard.module.css";
 import Error from "../components/Error";
 
 function DashBoard() {
-  const apiUrl = `http://${window.location.hostname}:8000`;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   //----- STATI -------
 

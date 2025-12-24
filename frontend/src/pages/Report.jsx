@@ -14,7 +14,7 @@ function Report() {
 
    
 
-    const apiUrl = `http://${window.location.hostname}:8000`;
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const [simulationsData, setSimulationsData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
