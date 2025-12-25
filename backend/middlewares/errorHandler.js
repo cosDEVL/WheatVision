@@ -5,7 +5,7 @@
 
 const notFound = (req, res, next) => {
     const error = new Error(`Not Found - ${req.originalUrl}`);
-    res.status(404).json({ message: "Resource not found..." });
+    res.status(404);
     next(error); // Passa l'errore al gestore di errori successivo
 };
 
