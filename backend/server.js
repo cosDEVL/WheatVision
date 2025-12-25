@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 
 const reportRoutes = require("./routes/reportRoutes");
 const simulationRoutes = require("./routes/simulationRoutes");
+const heartBeat = require("./routes/heartBeat");
 
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 
@@ -20,6 +21,9 @@ app.use(express.json());
 app.use("/api/report", reportRoutes);
 app.use("/api/simulation", simulationRoutes);
 
+// Questa rotta serve a tenere attivo sia Render (backend) che Altas (database).
+app.use("/health", heartBeat);
+
 // Middleware per la gestione degli errori
 app.use(notFound);
 app.use(errorHandler);
@@ -31,7 +35,7 @@ const startServer = async () => {
         console.log("Connessione al DataBase riuscita...");
 
         const PORT = process.env.PORT || 5000;
-        app.listen(() =>
+        app.listen(PORT, "0.0.0.0", () =>
             console.log(`Server in ascolto sulla porta ${PORT}...`)
         );
     } catch (error) {
