@@ -107,7 +107,7 @@ function Form({ onSubmitSuccess, newSimSelected, onCloseForm, onError }) {
                 <InputField label="Dose di Azoto" name="azoto" type="number" value={formInput.azoto} onChange={handleInputChange} infoText={"L'azoto nel grano duro serve per aumentarne la resa produttiva e la qualità della granella"} min={0} required />
                 <InputField label="Dose di Fosforo" name="fosforo" type="number" value={formInput.fosforo} onChange={handleInputChange} infoText={"Il fosforo serve a promuovere la germinazione dei semi e lo sviluppo di un apparato radicale vigoroso, che aumenta l'assorbimento di acqua e nutrienti, favorendo una rapida crescita iniziale della pianta."} min={0} required />
                 <InputField label="Dose di Potassio" name="potassio" type="number" value={formInput.potassio} onChange={handleInputChange} infoText={"Il potassio è fondamentale per la fotosintesi, il trasporto degli zuccheri, la qualità e la quantità del prodotto, e per la resistenza agli stress ambientali come siccità e freddo."} min={0} required />
-              </div>
+              </div> 
             </div>
 
           </div>

@@ -1,3 +1,5 @@
+@import './variables.css';
+
 .loader {
     width: 48px;
     height: 48px;
@@ -36,4 +38,18 @@
     font-weight: 600;
 }
 
+
+.cold-start-message {
+    position: absolute;
+    bottom: 2.5rem;
+
+    max-width: 1000px;
+
+    background-color: var(--neutral-300);
+    color: var(--netral-700);
+    font-weight: 600;
+    font-size: 1rem;
+
+    padding: 1rem 2rem;
+}
 

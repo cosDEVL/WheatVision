@@ -30,21 +30,15 @@ app.use(errorHandler);
 
 // funzione per avviare il server Express
 const startServer = async () => {
-    try {
-        await connectDB();
-        console.log("Connessione al DataBase riuscita...");
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, "0.0.0.0", () =>
+        console.log(
+            `Server listening on port ${PORT}...\n(Waiting for Database...)`
+        )
+    );
 
-        const PORT = process.env.PORT || 5000;
-        app.listen(PORT, "0.0.0.0", () =>
-            console.log(`Server in ascolto sulla porta ${PORT}...`)
-        );
-    } catch (error) {
-        console.error(
-            "Failed to connect to the database. Server is not starting.",
-            error
-        );
-        process.exit(1);
-    }
+    connectDB();
+    // console.log("Connessione al DataBase riuscita...");
 };
 
 startServer();
